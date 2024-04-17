@@ -50,13 +50,15 @@
                 </tr>
             </thead>
             <tbody>
+                {% for appeal in appeals %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>1</td>
-                    <td>4/12/2020</td>
-                    <td>4/12/2022</td>
-                    <td>Active</td>
+                    <th scope="row">{{ appeal["Appeal_ID"]}}</th>
+                    <td>{{ appeal["Crime_ID"]}}</td>
+                    <td>{{ appeal["Filing_date"]}}</td>
+                    <td>{{ appeal["Hearing_date"]}}</td>
+                    <td>{{ appeal["Status"]}}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
