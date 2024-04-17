@@ -50,7 +50,7 @@ def appeals():
 
 @app.route("/charges")
 def charges():
-    dn = runstatement("SELECT * FROM charges;")
+    dn = runstatement("SELECT * FROM crime_charges;")
     datas = []
     for i,j in dn.iterrows():
         datas.append(j.to_dict())
@@ -84,7 +84,7 @@ def officers():
 
 @app.route("/probation_officers")
 def probation_officers():
-    dn = runstatement("SELECT * FROM probation_officers;")
+    dn = runstatement("SELECT * FROM prob_officers;")
     datas = []
     for i,j in dn.iterrows():
         datas.append(j.to_dict())
