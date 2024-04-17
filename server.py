@@ -1,5 +1,5 @@
 from flask import Flask,render_template
-from flask_mysqldb import MySQL
+import pymysql
 import pandas as pd
 app = Flask(__name__)
 
@@ -8,14 +8,15 @@ app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "criminals"
 
-
-mysql = MySQL(app)
+connection = pymysql.connect(host="localhost",
+                             user="user",
+                             password="")
 
 def runstatement(statement):
-    cursor = mysql.connection.cursor()
+    cursor = connection.cursor()
     cursor.execute(statement)
     results = cursor.fetchall()
-    mysql.connection.commit()
+    connection.commit()
     df  = ""
     if (cursor.description):
         column_names = [desc[0] for desc in cursor.description]
