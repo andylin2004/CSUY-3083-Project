@@ -52,15 +52,17 @@
                 </tr>
             </thead>
             <tbody>
+                {% for sentence in sentences %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>1</td>
-                    <td>House Arrest</td>
-                    <td>1</td>
-                    <td>1/9/2019</td>
-                    <td>1/9/2020</td>
-                    <td>2</td>
+                    <th scope="row">{{ sentence["Sentence_ID"]}}</th>
+                    <td>{{ sentence["Criminal_ID"]}}</td>
+                    <td>{{ sentence["Type"]}}</td>
+                    <td>{{ sentence["Prob_ID"]}}</td>
+                    <td>{{ sentence["Start_date"]}}</td>
+                    <td>{{ sentence["End_date"]}}</td>
+                    <td>{{ sentence["Violations"]}}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
