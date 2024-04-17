@@ -52,15 +52,17 @@
                 </tr>
             </thead>
             <tbody>
+                {% for crime in crimes %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>1</td>
-                    <td>Larency</td>
-                    <td>1/1/1970</td>
-                    <td>In Progress</td>
-                    <td>1/1/2000</td>
-                    <td>1/1/2010</td>
+                    <th scope="row">{{ crime['Crime_ID'] }}</th>
+                    <td>{{ crime['Criminal_ID'] }}</td>
+                    <td>{{ crime['Classification'] }}</td>
+                    <td>{{ crime['Date_charged'] }}</td>
+                    <td>{{ crime['Status'] }}</td>
+                    <td>{{ crime['Hearing_date'] }}</td>
+                    <td>{{ crime['Appeal_cut_date'] }}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
