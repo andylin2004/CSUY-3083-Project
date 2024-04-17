@@ -9,8 +9,9 @@ app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "criminals"
 
 connection = pymysql.connect(host="localhost",
-                             user="user",
-                             password="")
+                             user="root",
+                             password="",
+                             database="criminals")
 
 def runstatement(statement):
     cursor = connection.cursor()
@@ -29,7 +30,8 @@ def runstatement(statement):
 
 @app.route("/")
 def login():
-    return render_template("index.html")
+    return runstatement("SELECT * FROM criminals;")
+    # return render_template("index.html")
 
 
 @app.route("/home")
