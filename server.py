@@ -59,7 +59,7 @@ def charges():
 
 @app.route("/crimes")
 def crimes():
-    dn = runstatement("SELECT * FROM crimes;")
+    dn = runstatement("CALL get_crimes();")
     datas = []
     for i,j in dn.iterrows():
         datas.append(j.to_dict())
