@@ -23,6 +23,7 @@ def runstatement(statement):
         column_names = [desc[0] for desc in cursor.description]
         df = pd.DataFrame(results, columns=column_names)
     cursor.close()
+    return df
 
 
 
@@ -30,8 +31,12 @@ def runstatement(statement):
 
 @app.route("/")
 def login():
-    return runstatement("SELECT * FROM criminals;")
-    # return render_template("index.html")
+    dn = runstatement("SELECT * FROM crimes;")
+    e = ""
+    for i,j in dn.iterrows():
+        print(i,j)
+        e = j["Classification"]
+    return e
 
 
 @app.route("/home")
