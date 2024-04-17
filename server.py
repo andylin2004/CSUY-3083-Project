@@ -1,6 +1,29 @@
 from flask import Flask,render_template
-
+from flask_mysqldb import MySQL
+import pandas as pd
 app = Flask(__name__)
+
+app.config["MYSQL_HOST"] = "localhost"
+app.config["MYSQL_USER"] = "root"
+app.config["MYSQL_PASSWORD"] = ""
+app.config["MYSQL_DB"] = "criminals"
+
+
+mysql = MySQL(app)
+
+def runstatement(statement):
+    cursor = mysql.connection.cursor()
+    cursor.execute(statement)
+    results = cursor.fetchall()
+    mysql.connection.commit()
+    df  = ""
+    if (cursor.description):
+        column_names = [desc[0] for desc in cursor.description]
+        df = pd.DataFrame(results)
+    cursor.close()
+
+
+
 
 
 @app.route("/")
