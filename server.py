@@ -19,7 +19,7 @@ def runstatement(statement):
     df  = ""
     if (cursor.description):
         column_names = [desc[0] for desc in cursor.description]
-        df = pd.DataFrame(results)
+        df = pd.DataFrame(results, columns=column_names)
     cursor.close()
 
 
