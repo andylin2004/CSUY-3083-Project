@@ -55,18 +55,20 @@
                 </tr>
             </thead>
             <tbody>
+                {% for prob_officer in prob_officers %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Joe</td>
-                    <td>Mama</td>
-                    <td>420 Jeff St</td>
-                    <td>Philly</td>
-                    <td>PA</td>
-                    <td>20202</td>
-                    <td>2125555555</td>
-                    <td>joe@mama.com</td>
-                    <td>A</td>
+                    <th scope="row">{{ prob_officer["Prob_ID"] }}</th>
+                    <td>{{ prob_officer["First"] }}</td>
+                    <td>{{ prob_officer["Last"] }}</td>
+                    <td>{{ prob_officer["Street"] }}</td>
+                    <td>{{ prob_officer["City"] }}</td>
+                    <td>{{ prob_officer["State"] }}</td>
+                    <td>{{ prob_officer["ZIP"] }}</td>
+                    <td>{{ prob_officer["Phone"] }}</td>
+                    <td>{{ prob_officer["Email"] }}</td>
+                    <td>{{ prob_officer["Status"] }}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
