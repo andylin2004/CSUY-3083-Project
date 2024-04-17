@@ -52,15 +52,17 @@
                 </tr>
             </thead>
             <tbody>
+                {% for officer in officers %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Joe</td>
-                    <td>Mama</td>
-                    <td>34</td>
-                    <td>2125555555</td>
-                    <td>30213</td>
-                    <td>Active</td>
+                    <th scope="row">{{ officer["Officer_ID"] }}</th>
+                    <td>{{ officer["First"] }}</td>
+                    <td>{{ officer["Last"] }}</td>
+                    <td>{{ officer["Precinct"] }}</td>
+                    <td>{{ officer["Badge"] }}</td>
+                    <td>{{ officer["Phone"] }}</td>
+                    <td>{{ officer["Status"] }}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
