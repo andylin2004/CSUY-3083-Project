@@ -88,7 +88,7 @@ def probation_officers():
     datas = []
     for i,j in dn.iterrows():
         datas.append(j.to_dict())
-    return render_template("probation_officers.html", probation_officers=datas)
+    return render_template("probation_officers.html", prob_officers=datas)
 
 
 @app.route("/sentences")
