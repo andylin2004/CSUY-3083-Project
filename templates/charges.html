@@ -53,16 +53,18 @@
                 </tr>
             </thead>
             <tbody>
+                {% for charge in charges %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>1</td>
-                    <td>23</td>
-                    <td>Active</td>
-                    <td>420.69</td>
-                    <td>69.42</td>
-                    <td>69.42</td>
-                    <td>6/9/2069</td>
+                    <th scope="row">{{ charge["Charge_ID"] }}</th>
+                    <td>{{ charge["Crime_ID"] }}</td>
+                    <td>{{ charge["Crime_code"] }}</td>
+                    <td>{{ charge["Charge_status"] }}</td>
+                    <td>{{ charge["Fine_amount"] }}</td>
+                    <td>{{ charge["Court_fee"] }}</td>
+                    <td>{{ charge["Amount_paid"] }}</td>
+                    <td>{{ charge["Pay_due_date"] }}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
