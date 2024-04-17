@@ -40,17 +40,30 @@ def home():
 
 @app.route("/appeals")
 def appeals():
-    return render_template("appeals.html")
+    dn = runstatement("SELECT * FROM appeals;")
+    datas = []
+    for i,j in dn.iterrows():
+        datas.append(j.to_dict())
+    return render_template("appeals.html", appeals=datas)
+
 
 
 @app.route("/charges")
 def charges():
-    return render_template("charges.html")
+    dn = runstatement("SELECT * FROM charges;")
+    datas = []
+    for i,j in dn.iterrows():
+        datas.append(j.to_dict())
+    return render_template("charges.html", charges=datas)
 
 
 @app.route("/crimes")
 def crimes():
-    return render_template("crimes.html")
+    dn = runstatement("SELECT * FROM crimes;")
+    datas = []
+    for i,j in dn.iterrows():
+        datas.append(j.to_dict())
+    return render_template("crimes.html", crimes=datas)
 
 @app.route("/criminals")
 def criminals():
@@ -62,16 +75,29 @@ def criminals():
 
 @app.route("/officers")
 def officers():
-    return render_template("officers.html")
+    dn = runstatement("SELECT * FROM officers;")
+    datas = []
+    for i,j in dn.iterrows():
+        datas.append(j.to_dict())
+    return render_template("officers.html", officers=datas)
 
 
 @app.route("/probation_officers")
 def probation_officers():
-    return render_template("probation_officers.html")
+    dn = runstatement("SELECT * FROM probation_officers;")
+    datas = []
+    for i,j in dn.iterrows():
+        datas.append(j.to_dict())
+    return render_template("probation_officers.html", probation_officers=datas)
+
 
 @app.route("/sentences")
 def sentences():
-    return render_template("sentences.html")
+    dn = runstatement("SELECT * FROM sentences;")
+    datas = []
+    for i,j in dn.iterrows():
+        datas.append(j.to_dict())
+    return render_template("sentences.html", sentences=datas)
 
 
 
