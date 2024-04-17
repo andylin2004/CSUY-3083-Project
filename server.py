@@ -31,12 +31,7 @@ def runstatement(statement):
 
 @app.route("/")
 def login():
-    dn = runstatement("SELECT * FROM crimes;")
-    e = ""
-    for i,j in dn.iterrows():
-        print(i,j)
-        e = j["Classification"]
-    return e
+    return render_template("index.html")
 
 
 @app.route("/home")
@@ -59,7 +54,11 @@ def crimes():
 
 @app.route("/criminals")
 def criminals():
-    return render_template("criminals.html")
+    dn = runstatement("SELECT * FROM criminals;")
+    datas = []
+    for i,j in dn.iterrows():
+        datas.append(j.to_dict())
+    return render_template("criminals.html", criminals=datas)
 
 @app.route("/officers")
 def officers():

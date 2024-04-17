@@ -50,24 +50,27 @@
                     <th scope="col">City</th>
                     <th scope="col">State</th>
                     <th scope="col">ZIP Code</th>
+                    <th scope="col">Phone Number</th>
                     <th scope="col">V</th>
                     <th scope="col">P</th>
                 </tr>
-                
             </thead>
             <tbody>
+                {% for criminal in criminals %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Kanye</td>
-                    <td>West</td>
-                    <td>Ye</td>
-                    <td>69 Meme St</td>
-                    <td>New York</td>
-                    <td>NY</td>
-                    <td>10013</td>
-                    <td>True</td>
-                    <td>True</td>
+                    <th scope="row">{{ criminal['Criminal_ID'] }}</th>
+                    <td>{{ criminal['First'] }}</td>
+                    <td>{{ criminal['Last'] }}</td>
+                    <td></td>
+                    <td>{{ criminal['Street'] }}</td>
+                    <td>{{ criminal['City'] }}</td>
+                    <td>{{ criminal['State'] }}</td>
+                    <td>{{ criminal['Zip'] }}</td>
+                    <td>{{ criminal['Phone'] }}</td>
+                    <td>{{ criminal['V_status'] }}</td>
+                    <td>{{ criminal['P_status'] }}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
