@@ -329,5 +329,21 @@ def edit_prob_officer():
                  
     return redirect("/probation_officers")
 
+@app.route('/edit-officer', methods=['POST'])
+def edit_officer():
+    officer_id = request.form.get("officer_id")
+    f_name = request.form.get("f_name")
+    l_name = request.form.get("l_name")
+    precinct = request.form.get("precinct")
+    phone = request.form.get("phone")
+    badge = request.form.get("badge")
+    status = request.form.get("status")
+
+    print(officer_id)
+
+    runstatement("CALL update_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
+
+    return redirect("/officers")
+
 if __name__ == '__main__':
     app.run(debug = True)

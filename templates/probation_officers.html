@@ -197,7 +197,7 @@
                                 <label for="prob_id">Probation Officer ID</label>
                             </div>
                             <div class="col-sm-10">
-                                <input type="text" name="prob_id" id="prob_id" class="form-control">
+                                <input type="text" name="prob_id" id="prob_id" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -295,18 +295,22 @@
           </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script>
-            function showInfo(crime) {
+            function showInfo(prob_officer) {
                 var editForm = document.getElementById("editModal");
-                editForm.querySelector("#prob_id").value = crime['Prob_ID'];
-                editForm.querySelector("#l_name").value = crime['Last'];
-                editForm.querySelector("#f_name").value = crime['First'];
-                editForm.querySelector("#street").value = crime['Street'];
-                editForm.querySelector("#city").value = crime['City'];
-                editForm.querySelector("#state").value = crime['State'];
-                editForm.querySelector("#zip").value = crime['Zip'];
-                editForm.querySelector("#phone").value = crime['Phone'];
-                editForm.querySelector("#email").value = crime['Email'];
-                editForm.querySelector("#status").value = crime['Status'];
+                editForm.querySelector("#prob_id").value = prob_officer['Prob_ID'];
+                editForm.querySelector("#l_name").value = prob_officer['Last'];
+                editForm.querySelector("#f_name").value = prob_officer['First'];
+                editForm.querySelector("#street").value = prob_officer['Street'];
+                editForm.querySelector("#city").value = prob_officer['City'];
+                editForm.querySelector("#state").value = prob_officer['State'];
+                editForm.querySelector("#zip").value = prob_officer['Zip'];
+                editForm.querySelector("#phone").value = prob_officer['Phone'];
+                editForm.querySelector("#email").value = prob_officer['Email'];
+                if (prob_officer['Status'] === "A") {
+                    editForm.querySelector("#status").querySelector("#active").checked = true;
+                } else if (prob_officer['Status'] === "I") {
+                    editForm.querySelector("#status").querySelector("#inactive").checked = true;
+                }
             }
         </script>
     </body>
