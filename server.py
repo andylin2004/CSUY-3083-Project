@@ -277,5 +277,12 @@ def delete_officer():
         runstatement("CALL deleteOfficer(%s);", (int(i.split("check")[1]),))
     return redirect("/officers")
 
+@app.route('/delete-appeals', methods=['POST'])
+def delete_appeal():
+    for (i,_) in request.form.items():
+        print((int(i.split("check")[1]),))
+        runstatement("CALL deleteAppeals(%s);", (int(i.split("check")[1]),))
+    return redirect("/appeals")
+
 if __name__ == '__main__':
     app.run(debug = True)
