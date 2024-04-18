@@ -14,9 +14,9 @@ connection = pymysql.connect(host="localhost",
                              password="",
                              database="criminals")
 
-def runstatement(statement):
+def runstatement(statement, args=None):
     cursor = connection.cursor()
-    cursor.execute(statement)
+    cursor.execute(statement, args)
     results = cursor.fetchall()
     connection.commit()
     df  = ""
@@ -118,6 +118,40 @@ def login():
     password = request.form.get("password")
     # TODO: add user account authentication
     return redirect("/home")
+
+@app.route("/add-criminal", methods=['POST'])
+def add_criminal():
+    # 'f_name', ''), ('l_name', ''), ('l_name', ''), ('street', ''), ('city', ''), ('state', ''), ('zip', ''), ('phone', ''), ('vio_offender', 'true'), ('probation_stat', 'true'
+    f_name = request.form.get("f_name")
+    l_name = request.form.get("l_name")
+    alias = request.form.get("alias")
+    street = request.form.get("street")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    zip = request.form.get("zip")
+    phone = request.form.get("phone")
+    vio_offender = request.form.get("vio_offender")
+    probation_stat = request.form.get("probation_stat")
+
+    if vio_offender != None:
+        vio_offender = 'Y'
+    else:
+        vio_offender = 'N'
+
+    if probation_stat != None:
+        probation_stat = 'Y'
+    else:
+        probation_stat = 'N'
+
+    # TODO: make the first param here match the count of rows of the table
+
+    new_id = 77
+    runstatement("CALL add_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (new_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
+    new_alias_id = 77
+    if len(alias) > 0:
+        runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (new_alias_id, new_id, alias))
+
+    return redirect("/criminals")
 
 if __name__ == '__main__':
     app.run(debug = True)
