@@ -202,5 +202,21 @@ def add_officer():
 
     return redirect("/officers")
 
+@app.route('/add-appeal', methods=['POST'])
+def add_appeal():
+    # ('crime_id', ''), ('file_date', ''), ('hearing_date', ''), ('status', '')
+
+    crime_id = request.form.get("crime_id")
+    file_date = request.form.get("file_date")
+    hearing_date = request.form.get("hearing_date")
+    status = request.form.get("status")
+    
+    # TODO: make the new id the same as the count of appeals
+    new_id = 78
+
+    runstatement("CALL add_appeal(%s, %s, %s, %s, %s);", (new_id, crime_id, file_date, hearing_date, status))
+
+    return redirect("/appeals")
+
 if __name__ == '__main__':
     app.run(debug = True)
