@@ -20,11 +20,18 @@
                 </div> -->
             </div>
         </nav>
+        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                {% if errors %}
+                {%- for msg in errors %}
+                <li>{{ msg }}</li>
+                {% endfor -%}
+                {% endif %}
+                {% endwith %}
         <div class="container">
             <div class="row align-items-start">
                 <div class="col me-auto">
                     <h1>Login</h1>
-                    <form>
+                    <form method="post">
                         <div class="mb-3">
                             <label for="username">Username</label>
                             <input type="text" name="username" id="username" class="form-control">
@@ -32,23 +39,23 @@
                         <div class="mb-3">
                             <label for="username">Password</label> <input type="password" name="password" id="password" class="form-control">
                         </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <input type="submit" class="btn btn-primary" onclick="javascript: form.action='/login'; form.method='post';" value="Login">
                     </form>
                 </div>
                 <div class="col me-auto">
                     <h1>Sign Up</h1>
-                    <form>
+                    <form method="post">
                         <div class="mb-3">
                             <label for="username">Username</label>
                             <input type="text" name="username" id="username" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="username">Password</label> <input type="password" name="password" id="password" class="form-control">
+                            <label for="password">Password</label> <input type="password" name="password" id="password" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="username">Clearance ID</label> <input type="password" name="password" id="password" class="form-control">
+                            <label for="clearance_id">Clearance ID</label> <input type="clearance_id" name="clearance_id" id="clearance_id" class="form-control">
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <input type="submit" class="btn btn-primary" value="Sign Up" onclick="javascript: form.action='/sign-up'; form.method='post';">
                     </form>
                 </div>
             </div>
