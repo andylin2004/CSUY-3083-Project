@@ -38,7 +38,7 @@ def home():
 def appeals():
     dn = runstatement("CALL get_appeals();")
     datas = []
-    for i,j in dn.iterrows():
+    for _,j in dn.iterrows():
         datas.append(j.to_dict())
     return render_template("appeals.html", appeals=datas)
 
@@ -46,7 +46,7 @@ def appeals():
 def charges():
     dn = runstatement("CALL get_charges();")
     datas = []
-    for i,j in dn.iterrows():
+    for _,j in dn.iterrows():
         datas.append(j.to_dict())
     return render_template("charges.html", charges=datas)
 
@@ -54,7 +54,7 @@ def charges():
 def crimes():
     dn = runstatement("CALL get_crimes();")
     datas = []
-    for i,j in dn.iterrows():
+    for _,j in dn.iterrows():
         datas.append(j.to_dict())
     return render_template("crimes.html", crimes=datas)
 
@@ -62,7 +62,7 @@ def crimes():
 def criminals():
     dn = runstatement("CALL get_criminals();")
     datas = []
-    for i,j in dn.iterrows():
+    for _,j in dn.iterrows():
         datas.append(j.to_dict())
     return render_template("criminals.html", criminals=datas)
 
@@ -70,7 +70,7 @@ def criminals():
 def officers():
     dn = runstatement("CALL get_officers();")
     datas = []
-    for i,j in dn.iterrows():
+    for _,j in dn.iterrows():
         datas.append(j.to_dict())
     return render_template("officers.html", officers=datas)
 
@@ -78,7 +78,7 @@ def officers():
 def probation_officers():
     dn = runstatement("CALL get_prob_officers();")
     datas = []
-    for i,j in dn.iterrows():
+    for _,j in dn.iterrows():
         datas.append(j.to_dict())
     return render_template("probation_officers.html", prob_officers=datas)
 
@@ -86,7 +86,7 @@ def probation_officers():
 def sentences():
     dn = runstatement("CALL get_sentences();")
     datas = []
-    for i,j in dn.iterrows():
+    for _,j in dn.iterrows():
         datas.append(j.to_dict())
     return render_template("sentences.html", sentences=datas)
 
