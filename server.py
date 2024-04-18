@@ -235,8 +235,6 @@ def add_charge():
     
 @app.route('/add-sentence', methods=['POST'])
 def add_sentence():
-    # ('c_id', ''), ('sentence_type', ''), ('start_date', ''), ('end_date', ''), ('violations', '')
-
     c_id = request.form.get("c_id")
     p_id = request.form.get("p_id")
     sentence_type = request.form.get("sentence_type")
@@ -250,6 +248,13 @@ def add_sentence():
     runstatement("CALL add_sentence(%s, %s, %s, %s, %s, %s, %s);", (new_id, c_id, sentence_type, p_id, start_date, end_date, violations))
 
     return redirect("/sentences")
+
+@app.route('/delete-crimes', methods=['POST'])
+def delete_crimes():
+    for (i,_) in request.form.items():
+        print((int(i.split("check")[1]),))
+        runstatement("CALL deleteCrimes(%s);", (int(i.split("check")[1]),))
+    return redirect("/crimes")
 
 if __name__ == '__main__':
     app.run(debug = True)
