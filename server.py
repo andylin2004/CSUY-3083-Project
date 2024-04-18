@@ -345,5 +345,17 @@ def edit_officer():
 
     return redirect("/officers")
 
+@app.route('/edit-appeal', methods=['POST'])
+def edit_appeal():
+    appeal_id = request.form.get("appeal_id")
+    crime_id = request.form.get("crime_id")
+    file_date = request.form.get("file_date")
+    hearing_date = request.form.get("hearing_date")
+    status = request.form.get("status")
+
+    runstatement("CALL update_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
+
+    return redirect("/appeals")
+
 if __name__ == '__main__':
     app.run(debug = True)
