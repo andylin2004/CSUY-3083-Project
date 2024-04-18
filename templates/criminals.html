@@ -42,40 +42,46 @@
         </nav>
         <h1>Criminals</h1>
         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add Criminal</a>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">C_ID</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Alias</th>
-                    <th scope="col">Street</th>
-                    <th scope="col">City</th>
-                    <th scope="col">State</th>
-                    <th scope="col">ZIP Code</th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">V</th>
-                    <th scope="col">P</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for criminal in criminals %}
-                <tr>
-                    <th scope="row">{{ criminal['Criminal_ID'] }}</th>
-                    <td>{{ criminal['First'] }}</td>
-                    <td>{{ criminal['Last'] }}</td>
-                    <td>{{ criminal['alias'] }}</td>
-                    <td>{{ criminal['Street'] }}</td>
-                    <td>{{ criminal['City'] }}</td>
-                    <td>{{ criminal['State'] }}</td>
-                    <td>{{ criminal['Zip'] }}</td>
-                    <td>{{ criminal['Phone'] }}</td>
-                    <td>{{ criminal['V_status'] }}</td>
-                    <td>{{ criminal['P_status'] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <form method="post">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">C_ID</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Alias</th>
+                        <th scope="col">Street</th>
+                        <th scope="col">City</th>
+                        <th scope="col">State</th>
+                        <th scope="col">ZIP Code</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">V</th>
+                        <th scope="col">P</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for criminal in criminals %}
+                    <tr>
+                        <td><input type="checkbox" id="check{{ criminal['Criminal_ID'] }}" name="check{{ criminal['Criminal_ID'] }}" value=""></td>
+                        <th scope="row">{{ criminal['Criminal_ID'] }}</th>
+                        <td>{{ criminal['First'] }}</td>
+                        <td>{{ criminal['Last'] }}</td>
+                        <td>{{ criminal['alias'] }}</td>
+                        <td>{{ criminal['Street'] }}</td>
+                        <td>{{ criminal['City'] }}</td>
+                        <td>{{ criminal['State'] }}</td>
+                        <td>{{ criminal['Zip'] }}</td>
+                        <td>{{ criminal['Phone'] }}</td>
+                        <td>{{ criminal['V_status'] }}</td>
+                        <td>{{ criminal['P_status'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="submit" class="btn btn-danger" value="Delete Criminals" onclick="javascript: form.action='/delete-criminals'; form.method='post'">
+        </form>
+        <!-- modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">

@@ -144,7 +144,7 @@ def add_criminal():
 
     # TODO: make the new id match the count of rows of the table; same thing for the alias id
 
-    new_id = 77
+    new_id = 78
     runstatement("CALL add_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (new_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
     new_alias_id = 77
     if len(alias) > 0:
@@ -255,6 +255,13 @@ def delete_crimes():
         print((int(i.split("check")[1]),))
         runstatement("CALL deleteCrimes(%s);", (int(i.split("check")[1]),))
     return redirect("/crimes")
+
+@app.route('/delete-criminals', methods=['POST'])
+def delete_criminal():
+    for (i,_) in request.form.items():
+        print((int(i.split("check")[1]),))
+        runstatement("CALL deleteCriminal(%s);", (int(i.split("check")[1]),))
+    return redirect("/criminals")
 
 if __name__ == '__main__':
     app.run(debug = True)
