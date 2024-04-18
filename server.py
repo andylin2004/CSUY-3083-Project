@@ -121,7 +121,6 @@ def login():
 
 @app.route("/add-criminal", methods=['POST'])
 def add_criminal():
-    # 'f_name', ''), ('l_name', ''), ('l_name', ''), ('street', ''), ('city', ''), ('state', ''), ('zip', ''), ('phone', ''), ('vio_offender', 'true'), ('probation_stat', 'true'
     f_name = request.form.get("f_name")
     l_name = request.form.get("l_name")
     alias = request.form.get("alias")
@@ -143,7 +142,7 @@ def add_criminal():
     else:
         probation_stat = 'N'
 
-    # TODO: make the first param here match the count of rows of the table
+    # TODO: make the new id match the count of rows of the table; same thing for the alias id
 
     new_id = 77
     runstatement("CALL add_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (new_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
@@ -152,6 +151,21 @@ def add_criminal():
         runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (new_alias_id, new_id, alias))
 
     return redirect("/criminals")
+
+@app.route('/add-crime', methods=['POST'])
+def add_crime():
+    c_id = request.form.get("c_id")
+    classification = request.form.get("classification")
+    date_charged = request.form.get("date_charged")
+    status = request.form.get("status")
+    hearing_date = request.form.get("hearing_date")
+    cutoff_date = request.form.get("cutoff_date")
+
+    # TODO: make the new id the same as the count of crimes
+    new_id = 78
+    runstatement("CALL add_crime(%s, %s, %s, %s, %s, %s, %s);", (new_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
+
+    return redirect("/crimes")
 
 if __name__ == '__main__':
     app.run(debug = True)
