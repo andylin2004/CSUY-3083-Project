@@ -42,32 +42,38 @@
         </nav>
         <h1>Officers</h1>
         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add Officer</a>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Officer ID</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Precinct</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Badge</th>
-                    <th scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for officer in officers %}
-                <tr>
-                    <th scope="row">{{ officer["Officer_ID"] }}</th>
-                    <td>{{ officer["First"] }}</td>
-                    <td>{{ officer["Last"] }}</td>
-                    <td>{{ officer["Precinct"] }}</td>
-                    <td>{{ officer["Phone"] }}</td>
-                    <td>{{ officer["Badge"] }}</td>
-                    <td>{{ officer["Status"] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <form method="post">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th scope="col">Officer ID</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Precinct</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Badge</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for officer in officers %}
+                    <tr>
+                        <td><input type="checkbox" id="check{{ officer['Officer_ID'] }}" name="check{{ officer['Officer_ID'] }}" value=""></td>
+                        <th scope="row">{{ officer["Officer_ID"] }}</th>
+                        <td>{{ officer["First"] }}</td>
+                        <td>{{ officer["Last"] }}</td>
+                        <td>{{ officer["Precinct"] }}</td>
+                        <td>{{ officer["Phone"] }}</td>
+                        <td>{{ officer["Badge"] }}</td>
+                        <td>{{ officer["Status"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="submit" class="btn btn-danger" value="Remove Officers" onclick="javascript: form.action='/delete-officer'; form.method='post'">
+        </form>
+        <!-- modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
