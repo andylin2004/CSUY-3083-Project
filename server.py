@@ -291,5 +291,12 @@ def delete_charges():
         runstatement("CALL deleteCrimeCharges(%s);", (int(i.split("check")[1]),))
     return redirect("/charges")
 
+@app.route('/delete-sentences', methods=['POST'])
+def delete_sentences():
+    for (i,_) in request.form.items():
+        print((int(i.split("check")[1]),))
+        runstatement("CALL deleteSentences(%s);", (int(i.split("check")[1]),))
+    return redirect("/sentences")
+
 if __name__ == '__main__':
     app.run(debug = True)

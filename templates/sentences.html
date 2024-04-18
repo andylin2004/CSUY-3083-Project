@@ -42,32 +42,38 @@
         </nav>
         <h1>Sentences</h1>
         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add Sentence</a>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Sentence ID</th>
-                    <th scope="col">Crime ID</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Probation ID</th>
-                    <th scope="col">Start Date</th>
-                    <th scope="col">End Date</th>
-                    <th scope="col">Violations</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for sentence in sentences %}
-                <tr>
-                    <th scope="row">{{ sentence["Sentence_ID"] }}</th>
-                    <td>{{ sentence["Criminal_ID"] }}</td>
-                    <td>{{ sentence["Type"] }}</td>
-                    <td>{{ sentence["Prob_ID"] }}</td>
-                    <td>{{ sentence["Start_date"] }}</td>
-                    <td>{{ sentence["End_date"] }}</td>
-                    <td>{{ sentence["Violations"] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <form method="post">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th scope="col">Sentence ID</th>
+                        <th scope="col">Crime ID</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Probation ID</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Violations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sentence in sentences %}
+                    <tr>
+                        <td><input type="checkbox" id="check{{ sentence['Sentence_ID'] }}" name="check{{ sentence['Sentence_ID'] }}" value=""></td>
+                        <th scope="row">{{ sentence["Sentence_ID"] }}</th>
+                        <td>{{ sentence["Criminal_ID"] }}</td>
+                        <td>{{ sentence["Type"] }}</td>
+                        <td>{{ sentence["Prob_ID"] }}</td>
+                        <td>{{ sentence["Start_date"] }}</td>
+                        <td>{{ sentence["End_date"] }}</td>
+                        <td>{{ sentence["Violations"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="submit" class="btn btn-danger" value="Delete Sentences" onclick="javascript: form.action='/delete-sentences'; form.method='post'">
+        </form>
+        <!-- modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
