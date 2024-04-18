@@ -42,34 +42,40 @@
         </nav>
         <h1>Charges</h1>
         <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">Add Charge</a>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Charge ID</th>
-                    <th scope="col">Crime ID</th>
-                    <th scope="col">Crime Code</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Fine</th>
-                    <th scope="col">Court Fee</th>
-                    <th scope="col">Amount Paid</th>
-                    <th scope="col">Due Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for charge in charges %}
-                <tr>
-                    <th scope="row">{{ charge["Charge_ID"] }}</th>
-                    <td>{{ charge["Crime_ID"] }}</td>
-                    <td>{{ charge["Crime_code"] }}</td>
-                    <td>{{ charge["Charge_status"] }}</td>
-                    <td>{{ charge["Fine_amount"] }}</td>
-                    <td>{{ charge["Court_fee"] }}</td>
-                    <td>{{ charge["Amount_paid"] }}</td>
-                    <td>{{ charge["Pay_due_date"] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <form method="post">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th scope="col">Charge ID</th>
+                        <th scope="col">Crime ID</th>
+                        <th scope="col">Crime Code</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Fine</th>
+                        <th scope="col">Court Fee</th>
+                        <th scope="col">Amount Paid</th>
+                        <th scope="col">Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for charge in charges %}
+                    <tr>
+                        <td><input type="checkbox" id="check{{ charge['Charge_ID'] }}" name="check{{ charge['Charge_ID'] }}" value=""></td>
+                        <th scope="row">{{ charge["Charge_ID"] }}</th>
+                        <td>{{ charge["Crime_ID"] }}</td>
+                        <td>{{ charge["Crime_code"] }}</td>
+                        <td>{{ charge["Charge_status"] }}</td>
+                        <td>{{ charge["Fine_amount"] }}</td>
+                        <td>{{ charge["Court_fee"] }}</td>
+                        <td>{{ charge["Amount_paid"] }}</td>
+                        <td>{{ charge["Pay_due_date"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="submit" class="btn btn-danger" value="Remove Charges" onclick="javascript: form.action='/delete-charges'; form.method='post'">
+        </form>
+        <!-- modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
