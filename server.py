@@ -298,5 +298,19 @@ def delete_sentences():
         runstatement("CALL deleteSentences(%s);", (int(i.split("check")[1]),))
     return redirect("/sentences")
 
+@app.route('/edit-crime', methods=['POST'])
+def edit_crime():
+    cr_id = request.form.get("cr_id")
+    c_id = request.form.get("c_id")
+    classification = request.form.get("classification")
+    date_charged = request.form.get("date_charged")
+    status = request.form.get("status")
+    hearing_date = request.form.get("hearing_date")
+    cutoff_date = request.form.get("cutoff_date")
+
+    runstatement("CALL update_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
+                 
+    return redirect("/crimes")
+
 if __name__ == '__main__':
     app.run(debug = True)
