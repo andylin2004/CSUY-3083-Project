@@ -64,7 +64,7 @@
                     {% for criminal in criminals %}
                     <tr>
                         <td><input type="checkbox" id="check{{ criminal['Criminal_ID'] }}" name="check{{ criminal['Criminal_ID'] }}" value=""></td>
-                        <th scope="row">{{ criminal['Criminal_ID'] }}</th>
+                        <th scope="row"><a href="" data-bs-toggle="modal" data-bs-target="#editModal" onclick='javascript: showInfo({{ criminal|tojson|safe }});'>{{ criminal['Criminal_ID'] }}</a></th>
                         <td>{{ criminal['First'] }}</td>
                         <td>{{ criminal['Last'] }}</td>
                         <td>{{ criminal['alias'] }}</td>
@@ -185,6 +185,135 @@
               </div>
             </div>
           </div>
+          <!-- view/edit modal -->
+          <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="editModalLabel">Edit Criminal</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="c_id">Criminal ID</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="c_id" id="c_id" class="form-control" disabled>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="f_name">First Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="f_name" id="f_name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="l_name">Last Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="l_name" id="l_name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="alias">Alias</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="alias" id="alias" class="form-control" disabled>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="street">Street</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="street" id="street" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="city">City</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="city" id="city" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="state">State</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="state" id="state" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="zip">ZIP Code</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="zip" id="zip" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="phone">Phone Number</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="phone" id="phone" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-10 offset-sm-2">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="vio_offender">
+                                        Violent Offender
+                                    </label>
+                                    <input class="form-check-input" type="checkbox" id="vio_offender" name="vio_offender" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-10 offset-sm-2">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="probation_stat">
+                                        On Probation
+                                    </label>
+                                    <input class="form-check-input" type="checkbox" id="probation_stat" name="probation_stat" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                        </button>
+                        <input type="submit" class="btn btn-primary" value="Edit Criminal" onclick="javascript: form.action='/edit-criminal'; form.method='post'">
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script>
+            function showInfo(criminal) {
+                console.log(criminal);
+                var editForm = document.getElementById("editModal");
+                editForm.querySelector("#c_id").value = criminal['Criminal_ID'];
+                editForm.querySelector("#l_name").value = criminal['Last'];
+                editForm.querySelector("#f_name").value = criminal['First'];
+                editForm.querySelector("#alias").value = criminal['alias'];
+                editForm.querySelector("#street").value = criminal['Street'];
+                editForm.querySelector("#city").value = criminal['City'];
+                editForm.querySelector("#state").value = criminal['State'];
+                editForm.querySelector("#zip").value = criminal['Zip'];
+                editForm.querySelector("#phone").value = criminal['Phone'];
+                editForm.querySelector("#vio_offender").checked = (criminal['V_status'] === "Y");
+                editForm.querySelector("#probation_stat").checked = (criminal['P_status'] === "Y");
+            }
+        </script>
     </body>
 </html>
