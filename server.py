@@ -27,7 +27,7 @@ def runstatement(statement):
     return df
 
 @app.route("/")
-def login():
+def go_to_index():
     return render_template("index.html")
 
 @app.route("/home")
