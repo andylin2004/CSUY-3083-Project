@@ -63,13 +63,13 @@
                     {% for prob_officer in prob_officers %}
                     <tr>
                         <td><input type="checkbox" id="check" name="check{{ prob_officer['Prob_ID'] }}" value="check{{ prob_officer['Prob_ID'] }}"></td>
-                        <th scope="row">{{ prob_officer["Prob_ID"] }}</th>
+                        <th scope="row"><a href="" data-bs-toggle="modal" data-bs-target="#editModal" onclick='javascript: showInfo({{ prob_officer|tojson|safe }});'>{{ prob_officer["Prob_ID"] }}</a></th>
                         <td>{{ prob_officer["First"] }}</td>
                         <td>{{ prob_officer["Last"] }}</td>
                         <td>{{ prob_officer["Street"] }}</td>
                         <td>{{ prob_officer["City"] }}</td>
                         <td>{{ prob_officer["State"] }}</td>
-                        <td>{{ prob_officer["ZIP"] }}</td>
+                        <td>{{ prob_officer["Zip"] }}</td>
                         <td>{{ prob_officer["Phone"] }}</td>
                         <td>{{ prob_officer["Email"] }}</td>
                         <td>{{ prob_officer["Status"] }}</td>
@@ -79,6 +79,7 @@
             </table>
             <input type="submit" class="btn btn-danger" value="Remove Probation Officer" onclick="javascript: form.action='/delete-probation-officer'; form.method='post'">
         </form>
+        <!-- add modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -163,7 +164,7 @@
                                         Active
                                     </label>
                                 </div>
-                                <div class="form-check">`
+                                <div class="form-check">
                                     <input class="form-check-input" type="radio" name="status" id="inactive" value="I">
                                     <label class="form-check-label" for="inactive">
                                         Inactive
@@ -181,6 +182,132 @@
               </div>
             </div>
           </div>
+          <!-- view/edit modal -->
+          <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="editModalLabel">Edit Probation Officer</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="prob_id">Probation Officer ID</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="prob_id" id="prob_id" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="f_name">First Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="f_name" id="f_name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="l_name">Last Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="l_name" id="l_name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="street">Street</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="street" id="street" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="city">City</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="city" id="city" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="state">State</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="state" id="state" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="zip">ZIP</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="zip" id="zip" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="phone">Phone</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="phone" id="phone" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="email" id="email" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="status">Status</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" id="active" value="A" checked>
+                                    <label class="form-check-label" for="active">
+                                        Active
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="status" id="inactive" value="I">
+                                    <label class="form-check-label" for="inactive">
+                                        Inactive
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                        </button>
+                        <input type="submit" class="btn btn-primary" value="Edit Probation Officer" onclick="javascript: form.action='/edit-probation-officer'; form.method='post'">
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script>
+            function showInfo(crime) {
+                var editForm = document.getElementById("editModal");
+                editForm.querySelector("#prob_id").value = crime['Prob_ID'];
+                editForm.querySelector("#l_name").value = crime['Last'];
+                editForm.querySelector("#f_name").value = crime['First'];
+                editForm.querySelector("#street").value = crime['Street'];
+                editForm.querySelector("#city").value = crime['City'];
+                editForm.querySelector("#state").value = crime['State'];
+                editForm.querySelector("#zip").value = crime['Zip'];
+                editForm.querySelector("#phone").value = crime['Phone'];
+                editForm.querySelector("#email").value = crime['Email'];
+                editForm.querySelector("#status").value = crime['Status'];
+            }
+        </script>
     </body>
 </html>

@@ -312,5 +312,22 @@ def edit_crime():
                  
     return redirect("/crimes")
 
+@app.route('/edit-probation-officer', methods=['POST'])
+def edit_prob_officer():
+    prob_id = request.form.get("prob_id")
+    f_name = request.form.get("f_name")
+    l_name = request.form.get("l_name")
+    street = request.form.get("street")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    zip = request.form.get("zip")
+    phone = request.form.get("phone")
+    email = request.form.get("email")
+    status = request.form.get("status")
+
+    runstatement("CALL update_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
+                 
+    return redirect("/probation_officers")
+
 if __name__ == '__main__':
     app.run(debug = True)
