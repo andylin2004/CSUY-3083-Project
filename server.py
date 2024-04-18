@@ -33,24 +33,21 @@ def runstatement(statement):
 def login():
     return render_template("index.html")
 
-
 @app.route("/home")
 def home():
     return render_template("home.html")
 
 @app.route("/appeals")
 def appeals():
-    dn = runstatement("SELECT * FROM appeals;")
+    dn = runstatement("CALL get_appeals();")
     datas = []
     for i,j in dn.iterrows():
         datas.append(j.to_dict())
     return render_template("appeals.html", appeals=datas)
 
-
-
 @app.route("/charges")
 def charges():
-    dn = runstatement("SELECT * FROM crime_charges;")
+    dn = runstatement("CALL get_charges();")
     datas = []
     for i,j in dn.iterrows():
         datas.append(j.to_dict())
@@ -67,7 +64,7 @@ def crimes():
 
 @app.route("/criminals")
 def criminals():
-    dn = runstatement("SELECT * FROM criminals;")
+    dn = runstatement("CALL get_criminals();")
     datas = []
     for i,j in dn.iterrows():
         datas.append(j.to_dict())
@@ -75,7 +72,7 @@ def criminals():
 
 @app.route("/officers")
 def officers():
-    dn = runstatement("SELECT * FROM officers;")
+    dn = runstatement("CALL get_officers();")
     datas = []
     for i,j in dn.iterrows():
         datas.append(j.to_dict())
@@ -84,7 +81,7 @@ def officers():
 
 @app.route("/probation_officers")
 def probation_officers():
-    dn = runstatement("SELECT * FROM prob_officers;")
+    dn = runstatement("CALL get_prob_officers();")
     datas = []
     for i,j in dn.iterrows():
         datas.append(j.to_dict())
@@ -93,7 +90,7 @@ def probation_officers():
 
 @app.route("/sentences")
 def sentences():
-    dn = runstatement("SELECT * FROM sentences;")
+    dn = runstatement("CALL get_sentences();")
     datas = []
     for i,j in dn.iterrows():
         datas.append(j.to_dict())
