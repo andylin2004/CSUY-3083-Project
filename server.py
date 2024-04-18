@@ -186,5 +186,21 @@ def add_probation_officer():
 
     return redirect("/probation_officers")
 
+@app.route('/add-officer', methods=['POST'])
+def add_officer():
+    f_name = request.form.get("f_name")
+    l_name = request.form.get("l_name")
+    precinct = request.form.get("precinct")
+    phone = request.form.get("phone")
+    badge = request.form.get("badge")
+    status = request.form.get("status")
+
+    # TODO: make the new id the same as the count of officers
+    new_id = 78
+
+    runstatement("CALL add_officer(%s, %s, %s, %s, %s, %s, %s);", (new_id, l_name, f_name, precinct, badge, phone, status))
+
+    return redirect("/officers")
+
 if __name__ == '__main__':
     app.run(debug = True)
