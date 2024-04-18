@@ -77,7 +77,7 @@
                   <h1 class="modal-title fs-5" id="addModalLabel">Add Charge</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form>
+                <form method="post">
                     <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col-sm-2 col-form-label">
@@ -100,11 +100,11 @@
                                 <label for="status">Status</label>
                             </div>
                             <div class="col-sm-10">
-                                <select class="form-select" id="status">
-                                    <option selected>Choose...</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="guilty">Guilty</option>
-                                    <option value="not_guilty">Not Guilty</option>
+                                <select class="form-select" id="status" name="status">
+                                    <option selected value="">Choose...</option>
+                                    <option value="PD">Pending</option>
+                                    <option value="GL">Guilty</option>
+                                    <option value="NG">Not Guilty</option>
                                 </select>
                             </div>
                         </div>
@@ -144,7 +144,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
                         </button>
-                        <button type="button" class="btn btn-primary">Add Charge</button>
+                        <input type="submit" class="btn btn-primary" value="Add Charge" onclick="javascript: form.action='/add-charge'; form.method='post'">
                     </div>
                 </form>
               </div>

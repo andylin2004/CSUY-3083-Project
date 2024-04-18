@@ -218,5 +218,24 @@ def add_appeal():
 
     return redirect("/appeals")
 
+@app.route('/add-charge', methods=['POST'])
+def add_charge():
+    # 'c_id', ''), ('crime_code', ''), ('status', ''), ('fine', ''), ('court_fee', ''), ('amount_paid', ''), ('due_date', ''
+    c_id = request.form.get("c_id")
+    crime_code = request.form.get("crime_code")
+    status = request.form.get("status")
+    fine = request.form.get("fine")
+    court_fee = request.form.get("court_fee")
+    amount_paid = request.form.get("amount_paid")
+    due_date = request.form.get("due_date")
+
+    # TODO: make the new id the same as the count of charges
+    new_id = 78
+
+    runstatement("CALL add_Crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (new_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
+
+    return redirect("/charges")
+    
+
 if __name__ == '__main__':
     app.run(debug = True)
