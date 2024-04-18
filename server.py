@@ -204,8 +204,6 @@ def add_officer():
 
 @app.route('/add-appeal', methods=['POST'])
 def add_appeal():
-    # ('crime_id', ''), ('file_date', ''), ('hearing_date', ''), ('status', '')
-
     crime_id = request.form.get("crime_id")
     file_date = request.form.get("file_date")
     hearing_date = request.form.get("hearing_date")
@@ -220,7 +218,6 @@ def add_appeal():
 
 @app.route('/add-charge', methods=['POST'])
 def add_charge():
-    # 'c_id', ''), ('crime_code', ''), ('status', ''), ('fine', ''), ('court_fee', ''), ('amount_paid', ''), ('due_date', ''
     c_id = request.form.get("c_id")
     crime_code = request.form.get("crime_code")
     status = request.form.get("status")
@@ -236,6 +233,23 @@ def add_charge():
 
     return redirect("/charges")
     
+@app.route('/add-sentence', methods=['POST'])
+def add_sentence():
+    # ('c_id', ''), ('sentence_type', ''), ('start_date', ''), ('end_date', ''), ('violations', '')
+
+    c_id = request.form.get("c_id")
+    p_id = request.form.get("p_id")
+    sentence_type = request.form.get("sentence_type")
+    start_date = request.form.get("start_date")
+    end_date = request.form.get("end_date")
+    violations = request.form.get("violations")
+
+    # TODO: make the new id the same as the count of sentences
+    new_id = 78
+
+    runstatement("CALL add_sentence(%s, %s, %s, %s, %s, %s, %s);", (new_id, c_id, sentence_type, p_id, start_date, end_date, violations))
+
+    return redirect("/sentences")
 
 if __name__ == '__main__':
     app.run(debug = True)
