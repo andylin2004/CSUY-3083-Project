@@ -61,7 +61,7 @@
                     {% for charge in charges %}
                     <tr>
                         <td><input type="checkbox" id="check{{ charge['Charge_ID'] }}" name="check{{ charge['Charge_ID'] }}" value=""></td>
-                        <th scope="row">{{ charge["Charge_ID"] }}</th>
+                        <th scope="row"><a href="" data-bs-toggle="modal" data-bs-target="#editModal" onclick='javascript: showInfo({{ charge|tojson|safe }});'>{{ charge["Charge_ID"] }}</a></th>
                         <td>{{ charge["Crime_ID"] }}</td>
                         <td>{{ charge["Crime_code"] }}</td>
                         <td>{{ charge["Charge_status"] }}</td>
@@ -87,7 +87,7 @@
                     <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col-sm-2 col-form-label">
-                                <label for="c_id">Criminal to Add Charge</label>
+                                <label for="c_id">Crime to Add Charge to</label>
                             </div>
                             <div class="col-sm-10">
                                 <input type="text" name="c_id" id="c_id" class="form-control">
@@ -156,6 +156,108 @@
               </div>
             </div>
           </div>
+          <!-- edit/view modal -->
+          <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="editModalLabel">Edit Charge</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="charge_id">Charge ID</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="charge_id" id="charge_id" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="c_id">Criminal to Add Charge</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="c_id" id="c_id" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="crime_code">Crime Code</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="crime_code" id="crime_code" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="status">Status</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <select class="form-select" id="status" name="status">
+                                    <option selected value="">Choose...</option>
+                                    <option value="PD">Pending</option>
+                                    <option value="GL">Guilty</option>
+                                    <option value="NG">Not Guilty</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="fine">Fine</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="fine" id="fine" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="court_fee">Court Fee</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="court_fee" id="court_fee" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="amount_paid">Amount Paid</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="amount_paid" id="amount_paid" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <label for="due_date">Due Date</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="date" name="due_date" id="due_date" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                        </button>
+                        <input type="submit" class="btn btn-primary" value="Edit Charge" onclick="javascript: form.action='/edit-charge'; form.method='post'">
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script>
+            function showInfo(charge) {
+                var editForm = document.getElementById("editModal");
+                editForm.querySelector("#charge_id").value = charge['Charge_ID'];
+                editForm.querySelector("#c_id").value = charge['Crime_ID'];
+                editForm.querySelector("#status").value = charge['Charge_status'];
+                editForm.querySelector("#crime_code").value = charge['Crime_code'];
+                editForm.querySelector("#fine").value = charge['Fine_amount'];
+                editForm.querySelector("#court_fee").value = charge['Court_fee'];
+                editForm.querySelector("#amount_paid").value = charge['Amount_paid'];
+                editForm.querySelector("#due_date").valueAsDate = new Date(charge['Pay_due_date']);
+            }
+        </script>
     </body>
 </html>

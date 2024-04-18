@@ -357,5 +357,20 @@ def edit_appeal():
 
     return redirect("/appeals")
 
+@app.route('/edit-charge', methods=['POST'])
+def edit_charge():
+    charge_id = request.form.get("charge_id")
+    c_id = request.form.get("c_id")
+    crime_code = request.form.get("crime_code")
+    status = request.form.get("status")
+    fine = request.form.get("fine")
+    court_fee = request.form.get("court_fee")
+    amount_paid = request.form.get("amount_paid")
+    due_date = request.form.get("due_date")
+    
+    runstatement("CALL update_crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
+
+    return redirect("/charges")
+
 if __name__ == '__main__':
     app.run(debug = True)
