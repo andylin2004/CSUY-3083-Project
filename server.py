@@ -167,5 +167,24 @@ def add_crime():
 
     return redirect("/crimes")
 
+@app.route('/add-probation-officer', methods=['POST'])
+def add_probation_officer():
+    f_name = request.form.get("f_name")
+    l_name = request.form.get("l_name")
+    street = request.form.get("street")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    zip = request.form.get("zip")
+    phone = request.form.get("phone")
+    email = request.form.get("email")
+    status = request.form.get("status")
+
+    # TODO: make the new id the same as the count of probation officers
+    new_id = 78
+
+    runstatement("CALL add_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (new_id, l_name, f_name, street, city, state, zip, phone, email, status))
+
+    return redirect("/probation_officers")
+
 if __name__ == '__main__':
     app.run(debug = True)
