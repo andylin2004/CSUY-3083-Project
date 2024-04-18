@@ -111,7 +111,13 @@ def sign_up():
         else:
             password = hash(password)
             return redirect("/home")
-        
+
+@app.route("/login", methods=['POST'])
+def login():
+    username = request.form.get("username")
+    password = request.form.get("password")
+    # TODO: add user account authentication
+    return redirect("/home")
 
 if __name__ == '__main__':
     app.run(debug = True)
