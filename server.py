@@ -367,10 +367,24 @@ def edit_charge():
     court_fee = request.form.get("court_fee")
     amount_paid = request.form.get("amount_paid")
     due_date = request.form.get("due_date")
-    
+
     runstatement("CALL update_crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
 
     return redirect("/charges")
+
+@app.route('/edit-sentence', methods=['POST'])
+def edit_sentence():
+    s_id = request.form.get("s_id")
+    c_id = request.form.get("c_id")
+    p_id = request.form.get("p_id")
+    sentence_type = request.form.get("sentence_type")
+    start_date = request.form.get("start_date")
+    end_date = request.form.get("end_date")
+    violations = request.form.get("violations")
+
+    runstatement("CALL update_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
+
+    return redirect("/sentences")
 
 if __name__ == '__main__':
     app.run(debug = True)
