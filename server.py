@@ -36,8 +36,14 @@ def home():
 
 @app.route("/appeals")
 def appeals():
-    # TODO: search query handling
-    dn = runstatement("CALL get_appeals();")
+    sql_params = {}
+    param_order = ['a_id', 'c_id', 'file_date', 'hear_date', 'status']
+    for column in param_order:
+        sql_params[column] = ""
+    column = request.args.get("column")
+    query = request.args.get("query")
+    sql_params[column] = query
+    dn = runstatement("CALL get_appeals(%s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
     datas = []
     for _,j in dn.iterrows():
         datas.append(j.to_dict())
@@ -69,11 +75,8 @@ def criminals():
         sql_params[column] = ""
     column = request.args.get("column")
     query = request.args.get("query")
-    print(column, query)
     sql_params[column] = query
-    inputs = tuple([sql_params[column] for column in param_order])
-    print(inputs)
-    dn = runstatement("CALL get_criminals(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", inputs)
+    dn = runstatement("CALL get_criminals(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
     datas = []
     for _,j in dn.iterrows():
         datas.append(j.to_dict())
