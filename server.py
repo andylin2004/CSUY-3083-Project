@@ -149,8 +149,14 @@ def probation_officers():
 @app.route("/sentences")
 def sentences():
     if "username" in session:
-    # TODO: search query handling
-        dn = runstatement("CALL get_sentences();")
+        sql_params = {}
+        param_order = ['s_id', 'c_id', 'type', 'p_id', 'start_date', 'end_date', 'violations']
+        for column in param_order:
+            sql_params[column] = ""
+        column = request.args.get("column")
+        query = request.args.get("query")
+        sql_params[column] = query
+        dn = runstatement("CALL get_sentences(%s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
         datas = []
         for _,j in dn.iterrows():
             datas.append(j.to_dict())
