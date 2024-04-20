@@ -3,13 +3,13 @@ import pymysql
 import pandas as pd
 app = Flask(__name__)
 
-app.config["MYSQL_HOST"] = "localhost"
+app.config["MYSQL_HOST"] = "10.18.222.220"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "criminals"
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-connection = pymysql.connect(host="localhost",
+connection = pymysql.connect(host="10.18.222.220",
                              user="root",
                              password="",
                              database="criminals")
@@ -60,19 +60,21 @@ def appeals():
 
 @app.route("/charges")
 def charges():
-    sql_params = {}
-    param_order = ['charge_id', 'crime_id', 'crime_code', 'status', 'fine', 'court_fee', 'amt_paid', 'due_date']
-    for column in param_order:
-        sql_params[column] = ""
-    column = request.args.get("column")
-    query = request.args.get("query")
-    sql_params[column] = query
     if "username" in session:
+        sql_params = {}
+        param_order = ['charge_id', 'crime_id', 'crime_code', 'status', 'fine', 'court_fee', 'amt_paid', 'due_date']
+        for column in param_order:
+            sql_params[column] = ""
+        column = request.args.get("column")
+        query = request.args.get("query")
+        sql_params[column] = query
         dn = runstatement("CALL get_charges(%s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
         datas = []
         for _,j in dn.iterrows():
             datas.append(j.to_dict())
         return render_template("charges.html", charges=datas)
+    else:
+        return redirect("/")
 
 @app.route("/crimes")
 def crimes():
