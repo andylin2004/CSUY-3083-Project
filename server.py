@@ -60,9 +60,15 @@ def appeals():
 
 @app.route("/charges")
 def charges():
-    # TODO: search query handling
+    sql_params = {}
+    param_order = ['charge_id', 'crime_id', 'crime_code', 'status', 'fine', 'court_fee', 'amt_paid', 'due_date']
+    for column in param_order:
+        sql_params[column] = ""
+    column = request.args.get("column")
+    query = request.args.get("query")
+    sql_params[column] = query
     if "username" in session:
-        dn = runstatement("CALL get_charges();")
+        dn = runstatement("CALL get_charges(%s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
         datas = []
         for _,j in dn.iterrows():
             datas.append(j.to_dict())
