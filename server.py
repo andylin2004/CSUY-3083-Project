@@ -257,6 +257,7 @@ def add_criminal():
 
 @app.route('/add-crime', methods=['POST'])
 def add_crime():
+    cr_id = request.form.get("cr_id")
     c_id = request.form.get("c_id")
     classification = request.form.get("classification")
     date_charged = request.form.get("date_charged")
@@ -264,14 +265,13 @@ def add_crime():
     hearing_date = request.form.get("hearing_date")
     cutoff_date = request.form.get("cutoff_date")
 
-    # TODO: make the new id the same as the count of crimes
-    new_id = 78
-    runstatement("CALL add_crime(%s, %s, %s, %s, %s, %s, %s);", (new_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
+    runstatement("CALL add_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
 
     return redirect("/crimes")
 
 @app.route('/add-probation-officer', methods=['POST'])
 def add_probation_officer():
+    prob_id = request.form.get("prob_id")
     f_name = request.form.get("f_name")
     l_name = request.form.get("l_name")
     street = request.form.get("street")
@@ -282,15 +282,13 @@ def add_probation_officer():
     email = request.form.get("email")
     status = request.form.get("status")
 
-    # TODO: make the new id the same as the count of probation officers
-    new_id = 78
-
-    runstatement("CALL add_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (new_id, l_name, f_name, street, city, state, zip, phone, email, status))
+    runstatement("CALL add_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
 
     return redirect("/probation_officers")
 
 @app.route('/add-officer', methods=['POST'])
 def add_officer():
+    officer_id = request.form.get("officer_id")
     f_name = request.form.get("f_name")
     l_name = request.form.get("l_name")
     precinct = request.form.get("precinct")
@@ -298,29 +296,25 @@ def add_officer():
     badge = request.form.get("badge")
     status = request.form.get("status")
 
-    # TODO: make the new id the same as the count of officers
-    new_id = 78
-
-    runstatement("CALL add_officer(%s, %s, %s, %s, %s, %s, %s);", (new_id, l_name, f_name, precinct, badge, phone, status))
+    runstatement("CALL add_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
 
     return redirect("/officers")
 
 @app.route('/add-appeal', methods=['POST'])
 def add_appeal():
+    appeal_id = request.form.get("appeal_id")
     crime_id = request.form.get("crime_id")
     file_date = request.form.get("file_date")
     hearing_date = request.form.get("hearing_date")
     status = request.form.get("status")
-    
-    # TODO: make the new id the same as the count of appeals
-    new_id = 78
 
-    runstatement("CALL add_appeal(%s, %s, %s, %s, %s);", (new_id, crime_id, file_date, hearing_date, status))
+    runstatement("CALL add_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
 
     return redirect("/appeals")
 
 @app.route('/add-charge', methods=['POST'])
 def add_charge():
+    charge_id = request.form.get("charge_id")
     c_id = request.form.get("c_id")
     crime_code = request.form.get("crime_code")
     status = request.form.get("status")
@@ -329,15 +323,13 @@ def add_charge():
     amount_paid = request.form.get("amount_paid")
     due_date = request.form.get("due_date")
 
-    # TODO: make the new id the same as the count of charges
-    new_id = 78
-
-    runstatement("CALL add_Crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (new_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
+    runstatement("CALL add_Crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
 
     return redirect("/charges")
     
 @app.route('/add-sentence', methods=['POST'])
 def add_sentence():
+    s_id = request.form.get("s_id")
     c_id = request.form.get("c_id")
     p_id = request.form.get("p_id")
     sentence_type = request.form.get("sentence_type")
@@ -345,10 +337,7 @@ def add_sentence():
     end_date = request.form.get("end_date")
     violations = request.form.get("violations")
 
-    # TODO: make the new id the same as the count of sentences
-    new_id = 78
-
-    runstatement("CALL add_sentence(%s, %s, %s, %s, %s, %s, %s);", (new_id, c_id, sentence_type, p_id, start_date, end_date, violations))
+    runstatement("CALL add_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
 
     return redirect("/sentences")
 
