@@ -226,6 +226,8 @@ def login():
 
 @app.route("/add-criminal", methods=['POST'])
 def add_criminal():
+    c_id = request.form.get("c_id")
+    a_id = request.form.get("a_id")
     f_name = request.form.get("f_name")
     l_name = request.form.get("l_name")
     alias = request.form.get("alias")
@@ -247,13 +249,9 @@ def add_criminal():
     else:
         probation_stat = 'N'
 
-    # TODO: make the new id match the count of rows of the table; same thing for the alias id
-
-    new_id = 78
-    runstatement("CALL add_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (new_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
-    new_alias_id = 77
+    runstatement("CALL add_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
     if len(alias) > 0:
-        runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (new_alias_id, new_id, alias))
+        runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (a_id, c_id, alias))
 
     return redirect("/criminals")
 
@@ -391,6 +389,33 @@ def delete_sentences():
         print((int(i.split("check")[1]),))
         runstatement("CALL deleteSentences(%s);", (int(i.split("check")[1]),))
     return redirect("/sentences")
+
+@app.route("/edit-criminal", methods=['POST'])
+def edit_criminal():
+    c_id = request.form.get("c_id")
+    f_name = request.form.get("f_name")
+    l_name = request.form.get("l_name")
+    street = request.form.get("street")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    zip = request.form.get("zip")
+    phone = request.form.get("phone")
+    vio_offender = request.form.get("vio_offender")
+    probation_stat = request.form.get("probation_stat")
+
+    if vio_offender != None:
+        vio_offender = 'Y'
+    else:
+        vio_offender = 'N'
+
+    if probation_stat != None:
+        probation_stat = 'Y'
+    else:
+        probation_stat = 'N'
+
+    runstatement("CALL update_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
+
+    return redirect("/criminals")
 
 @app.route('/edit-crime', methods=['POST'])
 def edit_crime():
