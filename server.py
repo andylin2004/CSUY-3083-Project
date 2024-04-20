@@ -1,15 +1,15 @@
-from flask import Flask,render_template,redirect,request,flash
+from flask import Flask,render_template,redirect,request,flash,session,url_for
 import pymysql
 import pandas as pd
 app = Flask(__name__)
 
-app.config["MYSQL_HOST"] = "localhost"
+app.config["MYSQL_HOST"] = "10.18.222.220"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "criminals"
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-connection = pymysql.connect(host="localhost",
+connection = pymysql.connect(host="10.18.222.220",
                              user="root",
                              password="",
                              database="criminals")
@@ -23,97 +23,124 @@ def runstatement(statement, args=None):
     if (cursor.description):
         column_names = [desc[0] for desc in cursor.description]
         df = pd.DataFrame(results, columns=column_names)
+    
     cursor.close()
     return df
 
 @app.route("/")
 def go_to_index():
+    session.pop('username', None)
     return render_template("index.html")
 
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    print(session)
+    if "username" in session:
+        return render_template("home.html")
+    else:
+        return redirect("/")
 
 @app.route("/appeals")
-def appeals():
-    sql_params = {}
-    param_order = ['a_id', 'c_id', 'file_date', 'hear_date', 'status']
-    for column in param_order:
-        sql_params[column] = ""
-    column = request.args.get("column")
-    query = request.args.get("query")
-    sql_params[column] = query
-    dn = runstatement("CALL get_appeals(%s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
-    datas = []
-    for _,j in dn.iterrows():
-        datas.append(j.to_dict())
-    return render_template("appeals.html", appeals=datas)
+def appeals(): 
+    if "username" in session:
+        sql_params = {}
+        param_order = ['a_id', 'c_id', 'file_date', 'hear_date', 'status']
+        for column in param_order:
+            sql_params[column] = ""
+        column = request.args.get("column")
+        query = request.args.get("query")
+        sql_params[column] = query
+        dn = runstatement("CALL get_appeals(%s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+        datas = []
+        for _,j in dn.iterrows():
+            datas.append(j.to_dict())
+        return render_template("appeals.html", appeals=datas)
+    else:
+        return redirect("/")
 
 @app.route("/charges")
 def charges():
     # TODO: search query handling
-    dn = runstatement("CALL get_charges();")
-    datas = []
-    for _,j in dn.iterrows():
-        datas.append(j.to_dict())
-    return render_template("charges.html", charges=datas)
+    if "username" in session:
+        dn = runstatement("CALL get_charges();")
+        datas = []
+        for _,j in dn.iterrows():
+            datas.append(j.to_dict())
+        return render_template("charges.html", charges=datas)
 
 @app.route("/crimes")
 def crimes():
     # TODO: search query handling
-    dn = runstatement("CALL get_crimes();")
-    datas = []
-    for _,j in dn.iterrows():
-        datas.append(j.to_dict())
-    return render_template("crimes.html", crimes=datas)
+    if "username" in session:
+        dn = runstatement("CALL get_crimes();")
+        datas = []
+        for _,j in dn.iterrows():
+            datas.append(j.to_dict())
+        return render_template("crimes.html", crimes=datas)
+    else:
+        return redirect("/")
 
 @app.route("/criminals")
 def criminals():
-    sql_params = {}
-    param_order = ["c_id", "last", "first", "street", "city", "state", "zip", "phone", "v_status", "p_status"]
-    for column in param_order:
-        sql_params[column] = ""
-    column = request.args.get("column")
-    query = request.args.get("query")
-    sql_params[column] = query
-    dn = runstatement("CALL get_criminals(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
-    datas = []
-    for _,j in dn.iterrows():
-        datas.append(j.to_dict())
-    return render_template("criminals.html", criminals=datas)
+    if "username" in session:
+        sql_params = {}
+        param_order = ["c_id", "last", "first", "street", "city", "state", "zip", "phone", "v_status", "p_status"]
+        for column in param_order:
+            sql_params[column] = ""
+        column = request.args.get("column")
+        query = request.args.get("query")
+        sql_params[column] = query
+        dn = runstatement("CALL get_criminals(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+        datas = []
+        for _,j in dn.iterrows():
+            datas.append(j.to_dict())
+        return render_template("criminals.html", criminals=datas)
+    else:
+        return redirect("/")
 
 @app.route("/officers")
 def officers():
     # TODO: search query handling
-    dn = runstatement("CALL get_officers();")
-    datas = []
-    for _,j in dn.iterrows():
-        datas.append(j.to_dict())
-    return render_template("officers.html", officers=datas)
+    if "username" in session:
+        dn = runstatement("CALL get_officers();")
+        datas = []
+        for _,j in dn.iterrows():
+            datas.append(j.to_dict())
+        return render_template("officers.html", officers=datas)
+    else:
+        return redirect("/")
 
 @app.route("/probation_officers")
 def probation_officers():
     # TODO: search query handling
-    dn = runstatement("CALL get_prob_officers();")
-    datas = []
-    for _,j in dn.iterrows():
-        datas.append(j.to_dict())
-    return render_template("probation_officers.html", prob_officers=datas)
+    if "username" in session:
+        dn = runstatement("CALL get_prob_officers();")
+        datas = []
+        for _,j in dn.iterrows():
+            datas.append(j.to_dict())
+        return render_template("probation_officers.html", prob_officers=datas)
+    else:
+        return redirect("/")
 
 @app.route("/sentences")
 def sentences():
+    if "username" in session:
     # TODO: search query handling
-    dn = runstatement("CALL get_sentences();")
-    datas = []
-    for _,j in dn.iterrows():
-        datas.append(j.to_dict())
-    return render_template("sentences.html", sentences=datas)
+        dn = runstatement("CALL get_sentences();")
+        datas = []
+        for _,j in dn.iterrows():
+            datas.append(j.to_dict())
+        return render_template("sentences.html", sentences=datas)
+    else:
+        return redirect("/")
 
 @app.route("/sign-up", methods=['POST'])
 def sign_up():
     username = request.form.get("username")
     password = request.form.get("password")
     clearance_id = request.form.get("clearance_id")
+    
+    
     if len(password) < 8:
         flash('Your password is too short!', 'error')
         return redirect("/")
@@ -128,15 +155,42 @@ def sign_up():
             flash('You didn\'t enter a clearance ID!', 'error')
             return redirect("/")
         else:
-            password = hash(password)
-            return redirect("/home")
+            if clearance_id == "10":
+                dn = runstatement("CALL add_user(%s, %s);",(username, password))
+            return redirect("/")
 
 @app.route("/login", methods=['POST'])
 def login():
     username = request.form.get("username")
     password = request.form.get("password")
+    result = 0
+
+    cursor =  connection.cursor()
+   # Call the stored procedure
+    cursor.callproc('check_user', (username, password))
+
+    result = cursor.fetchone()[0]
+    print(result)
+
+    if (result) == 0:
+        flash('Not valid user', 'error')
+        return redirect("/")
+           
+    # dn = runstatement("CALL check_user(%s, %s, @result);",(username, password, ))
+    # print(dn)
+    # print(username, password)
+    # if not result: 
+    #     flash('Not valid user', 'error')
+    #     return redirect("/")
+
     # TODO: add user account authentication
-    return redirect("/home")
+    session["username"] = username
+
+    return redirect(url_for("home"))
+
+
+
+
 
 @app.route("/add-criminal", methods=['POST'])
 def add_criminal():
