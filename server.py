@@ -1,8 +1,12 @@
 from flask import Flask,render_template,redirect,request,flash,session,url_for
 import pymysql
 import pandas as pd
+from flask_ngrok import run_with_ngrok
+
+
 app = Flask(__name__)
 
+run_with_ngrok(app)
 app.config["MYSQL_HOST"] = "10.18.222.220"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
