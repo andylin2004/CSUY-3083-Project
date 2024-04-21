@@ -5,8 +5,6 @@ function hideDisclosures() {
         bootstrap.Collapse.getOrCreateInstance(element).hide();
     });
 }
-editForm.addEventListener('hidden.bs.modal', hideDisclosures);
-
 var editing = false;
 
 function editFieldsIn(id_name) {
@@ -52,6 +50,8 @@ document.addEventListener("DOMContentLoaded", event => {
     editForm.querySelectorAll(".external-record-group.collapse").forEach(function(element) {
         element.querySelector("iframe").src += "";
     });
+
+    editForm.addEventListener('hidden.bs.modal', hideDisclosures);
 });
 
 function sleep(ms) {
