@@ -6,15 +6,15 @@ from flask_ngrok import run_with_ngrok
 
 app = Flask(__name__)
 
-# run_with_ngrok(app)
-# app.config["MYSQL_HOST"] = "10.18.222.220"
-app.config["MYSQL_HOST"] = "localhost"
+run_with_ngrok(app)
+app.config["MYSQL_HOST"] = "10.18.222.220"
+# app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "criminals"
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-connection = pymysql.connect(host="localhost",
+connection = pymysql.connect(host="10.18.222.220",
                              user="root",
                              password="",
                              database="criminals")
@@ -60,8 +60,8 @@ def appeals():
             dn = runstatement("CALL get_appeals(%s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
 
         return render_template("appeals.html", appeals=datas)
     else:
@@ -82,8 +82,8 @@ def charges():
             dn = runstatement("CALL get_charges(%s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
 
         return render_template("charges.html", charges=datas)
     else:
@@ -104,8 +104,8 @@ def crimes():
             dn = runstatement("CALL get_crimes(%s,%s,%s,%s,%s,%s,%s);", tuple([sql_params[column] for column in param_order]))
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
         
         return render_template("crimes.html", crimes=datas)
     else:
@@ -126,8 +126,8 @@ def criminals():
             dn = runstatement("CALL get_criminals(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
         return render_template("criminals.html", criminals=datas)
     else:
         return redirect("/")
@@ -147,8 +147,8 @@ def officers():
             dn = runstatement("CALL get_officers(%s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
             
         return render_template("officers.html", officers=datas)
     else:
@@ -169,8 +169,8 @@ def probation_officers():
             dn =runstatement("CALL get_prob_officers(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
         
         return render_template("probation_officers.html", prob_officers=datas)
     else:
@@ -192,8 +192,8 @@ def sentences():
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
             return render_template("sentences.html", sentences=datas)
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
             return redirect("/")
     else:
         return redirect("/")
@@ -222,8 +222,8 @@ def sign_up():
             if clearance_id == "10":
                 try:
                     runstatement("CALL add_user(%s, %s);",(username, password))
-                except:
-                    flash('', 'error')
+                except Exception as e:
+                    flash(str(e), 'error')
             return redirect("/")
 
 @app.route("/login", methods=['POST'])
@@ -289,10 +289,10 @@ def add_criminal():
         if len(alias) > 0:
             try:
                 runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (a_id, c_id, alias))
-            except:
-                flash('', 'error')
-    except:
-        flash('', 'error')
+            except Exception as e:
+                flash(str(e), 'error')
+    except Exception as e:
+        flash(str(e), 'error')
     
 
     return redirect("/criminals")
@@ -309,8 +309,8 @@ def add_crime():
 
     try:
         runstatement("CALL add_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
 
     return redirect("/crimes")
 
@@ -329,8 +329,8 @@ def add_probation_officer():
 
     try:
         runstatement("CALL add_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
 
     return redirect("/probation_officers")
 
@@ -346,8 +346,8 @@ def add_officer():
 
     try:
         runstatement("CALL add_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
 
     return redirect("/officers")
 
@@ -361,8 +361,8 @@ def add_appeal():
 
     try:
         runstatement("CALL add_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
 
     return redirect("/appeals")
 
@@ -379,8 +379,8 @@ def add_charge():
 
     try:
         runstatement("CALL add_Crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
 
     return redirect("/charges")
     
@@ -396,8 +396,8 @@ def add_sentence():
 
     try:
         runstatement("CALL add_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
 
     return redirect("/sentences")
 
@@ -407,8 +407,8 @@ def delete_crimes():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteCrimes(%s);", (int(i.split("check")[1]),))
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
     return redirect("/crimes")
 
 @app.route('/delete-criminals', methods=['POST'])
@@ -417,8 +417,8 @@ def delete_criminal():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteCriminal(%s);", (int(i.split("check")[1]),))
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
     return redirect("/criminals")
 
 @app.route('/delete-probation-officer', methods=['POST'])
@@ -427,8 +427,8 @@ def delete_prob_officer():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteProb(%s);", (int(i.split("check")[1]),))
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
     return redirect("/probation_officers")
 
 @app.route('/delete-officer', methods=['POST'])
@@ -437,8 +437,8 @@ def delete_officer():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteOfficer(%s);", (int(i.split("check")[1]),))
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
     return redirect("/officers")
 
 @app.route('/delete-appeals', methods=['POST'])
@@ -447,8 +447,8 @@ def delete_appeal():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteAppeals(%s);", (int(i.split("check")[1]),))
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
     return redirect("/appeals")
 
 @app.route('/delete-charges', methods=['POST'])
@@ -457,8 +457,8 @@ def delete_charges():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteCrimeCharges(%s);", (int(i.split("check")[1]),))
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
     return redirect("/charges")
 
 @app.route('/delete-sentences', methods=['POST'])
@@ -467,8 +467,8 @@ def delete_sentences():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteSentences(%s);", (int(i.split("check")[1]),))
-        except:
-            flash('', 'error')
+        except Exception as e:
+            flash(str(e), 'error')
     return redirect("/sentences")
 
 @app.route("/edit-criminal", methods=['POST'])
@@ -496,8 +496,8 @@ def edit_criminal():
 
     try:
         runstatement("CALL update_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
 
     return redirect("/criminals")
 
@@ -513,8 +513,8 @@ def edit_crime():
 
     try:
         runstatement("CALL update_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
                  
     return redirect("/crimes")
 
@@ -533,8 +533,8 @@ def edit_prob_officer():
 
     try:
         runstatement("CALL update_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
                  
     return redirect("/probation_officers")
 
@@ -552,8 +552,8 @@ def edit_officer():
 
     try:
         runstatement("CALL update_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
 
     return redirect("/officers")
 
@@ -567,8 +567,8 @@ def edit_appeal():
 
     try:
         runstatement("CALL update_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
 
     return redirect("/appeals")
 
@@ -585,8 +585,8 @@ def edit_charge():
 
     try:
         runstatement("CALL update_crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
 
     return redirect("/charges")
 
@@ -602,8 +602,8 @@ def edit_sentence():
 
     try:
         runstatement("CALL update_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
-    except:
-        flash('', 'error')
+    except Exception as e:
+        flash(str(e), 'error')
 
     return redirect("/sentences")
 
