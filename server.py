@@ -32,9 +32,18 @@ def runstatement(statement, args=None):
     
     cursor.close()
     return df
+def check_privilege():
+    dn = runstatement("CALL check_user_grant(%s)", (session['username']))
+    values = (str(dn).split(","))
+    print(dn)
+    if(" UPDATE" in values):
+        return True
+    return False
+    
 
 @app.route("/")
 def go_to_index():
+
     session.pop('username', None)
     return render_template("index.html")
 
@@ -240,7 +249,8 @@ def sign_up():
         else:
             if clearance_id == "10" or clearance_id == "3083":
                 try:
-                    runstatement("CALL add_user(%s, %s, %s);",(username, password, clearance_id))
+                    runstatement("CALL add_user_procedure(%s, %s, %s);",(username, password, clearance_id))
+
                 except Exception as e:
                     flash(str(e), 'error')
             return redirect("/")
@@ -281,40 +291,42 @@ def login():
 
 @app.route("/add-criminal", methods=['POST'])
 def add_criminal():
-    c_id = request.form.get("c_id")
-    a_id = request.form.get("a_id")
-    f_name = request.form.get("f_name")
-    l_name = request.form.get("l_name")
-    alias = request.form.get("alias")
-    street = request.form.get("street")
-    city = request.form.get("city")
-    state = request.form.get("state")
-    zip = request.form.get("zip")
-    phone = request.form.get("phone")
-    vio_offender = request.form.get("vio_offender")
-    probation_stat = request.form.get("probation_stat")
+    if check_privilege():
+        c_id = request.form.get("c_id")
+        a_id = request.form.get("a_id")
+        f_name = request.form.get("f_name")
+        l_name = request.form.get("l_name")
+        alias = request.form.get("alias")
+        street = request.form.get("street")
+        city = request.form.get("city")
+        state = request.form.get("state")
+        zip = request.form.get("zip")
+        phone = request.form.get("phone")
+        vio_offender = request.form.get("vio_offender")
+        probation_stat = request.form.get("probation_stat")
 
-    if vio_offender != None:
-        vio_offender = 'Y'
+        if vio_offender != None:
+            vio_offender = 'Y'
+        else:
+            vio_offender = 'N'
+
+        if probation_stat != None:
+            probation_stat = 'Y'
+        else:
+            probation_stat = 'N'
+
+        try:
+            runstatement("CALL add_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
+            if len(alias) > 0:
+                try:
+                    runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (a_id, c_id, alias))
+                    flash('Successfully added a new criminal!', 'success')
+                except Exception as e:
+                    flash(str(e), 'error')
+        except Exception as e:
+            flash(str(e), 'error')
     else:
-        vio_offender = 'N'
-
-    if probation_stat != None:
-        probation_stat = 'Y'
-    else:
-        probation_stat = 'N'
-
-    try:
-        runstatement("CALL add_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
-        if len(alias) > 0:
-            try:
-                runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (a_id, c_id, alias))
-                flash('Successfully added a new criminal!', 'success')
-            except Exception as e:
-                flash(str(e), 'error')
-    except Exception as e:
-        flash(str(e), 'error')
-    
+        flash('you have no rights','error')
 
     return redirect("/criminals")
 
@@ -430,14 +442,18 @@ def add_sentence():
 
 @app.route('/delete-crimes', methods=['POST'])
 def delete_crimes():
-    for (i,_) in request.form.items():
-        print((int(i.split("check")[1]),))
-        try:
-            runstatement("CALL deleteCrimes(%s);", (int(i.split("check")[1]),))
-            flash('Successfully deleted a crime!', 'success')
-        except Exception as e:
-            flash(str(e), 'error')
-        return redirect("/crimes?"+bytes.decode(request.query_string))
+    if (check_privilege()):
+        for (i,_) in request.form.items():
+            print((int(i.split("check")[1]),))
+            try:
+                runstatement("CALL deleteCrimes(%s);", (int(i.split("check")[1]),))
+                flash('Successfully deleted a crime!', 'success')
+            except Exception as e:
+                flash(str(e), 'error')
+            return redirect("/crimes?"+bytes.decode(request.query_string))
+    else:
+        flash('you have no rights','error')
+        return redirect("/crimes")
 
 @app.route('/delete-criminals', methods=['POST'])
 def delete_criminal():
@@ -463,6 +479,7 @@ def delete_prob_officer():
 
 @app.route('/delete-officer', methods=['POST'])
 def delete_officer():
+    thing = session["username"]
     for (i,_) in request.form.items():
         print((int(i.split("check")[1]),))
         try:
