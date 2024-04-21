@@ -48,11 +48,12 @@ function pageLoadTasks() {
     
     endEditFieldsIn('main-group');
 
-    editForm.querySelectorAll(".external-record-group.collapse").forEach(function (element) {
-        element.addEventListener('show.bs.collapse', refresh);
+    editForm.querySelectorAll(".external-record-group .collapse").forEach(function (element) {
+        element.addEventListener('show.bs.collapse', refresh(element));
         
-        function refresh() {
-            element.querySelector("iframe").src += "";
+        function refresh(element) {
+            let iframe = element.querySelector("iframe")
+            iframe.src = iframe.dataset.storedToLoad;
         }
     });
 
