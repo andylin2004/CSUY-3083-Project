@@ -69,7 +69,7 @@
         </div>
         <form class="d-flex" method="get" role="search">
             <div class="input-group mb-3">
-                <select class="input-group-text" id="form-control" name="column">
+                <select class="input-group-text" id="column" name="column">
                     <option value="p_id">Probation Officer ID</option>
                     <option value="f_name">First Name</option>
                     <option value="l_name">Last Name</option>
@@ -80,7 +80,7 @@
                     <option value="email">Email</option>
                     <option value="status">Status</option>
                 </select>
-                <input type="text" class="form-control" aria-label="Search" placeholder="Search" id="search" name="query" maxlength=100">
+                <input type="text" class="form-control" aria-label="Search" placeholder="Search" id="query" name="query" maxlength=100">
                 <input type="submit" class="btn btn-outline-success" value="Search">
             </div>
         </form>
@@ -361,6 +361,17 @@
                 } else if (prob_officer['Status'] === "I") {
                     editForm.querySelector("#status").querySelector("#inactive").checked = true;
                 }
+            }
+
+            var queryStr = window.location.search;
+            var urlParams = new URLSearchParams(queryStr);
+            
+            var category = urlParams.get('column');
+            var query = urlParams.get('query');
+
+            if (category != null) {
+                document.getElementById('column').value = category;
+                document.getElementById('query').value = query;
             }
         </script>
     </body>

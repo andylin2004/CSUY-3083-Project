@@ -69,7 +69,7 @@
         </div>
         <form class="d-flex" method="get" role="search">
             <div class="input-group mb-3">
-                <select class="input-group-text" id="form-control" name="column">
+                <select class="input-group-text" id="column" name="column">
                     <option value="c_id">C_ID</option>
                     <option value="first">First Name</option>
                     <option value="last">Last Name</option>
@@ -82,7 +82,7 @@
                     <option value="v_status">V</option>
                     <option value="p_status">P</option>
                 </select>
-                <input type="text" class="form-control" aria-label="Search" placeholder="Search" id="search" name="query" maxlength=100">
+                <input type="text" class="form-control" aria-label="Search" placeholder="Search" id="query" name="query" maxlength=100">
                 <input type="submit" class="btn btn-outline-success" value="Search">
             </div>
         </form>
@@ -366,6 +366,17 @@
                 editForm.querySelector("#phone").value = criminal['Phone'];
                 editForm.querySelector("#vio_offender").checked = (criminal['V_status'] === "Y");
                 editForm.querySelector("#probation_stat").checked = (criminal['P_status'] === "Y");
+            }
+            
+            var queryStr = window.location.search;
+            var urlParams = new URLSearchParams(queryStr);
+            
+            var category = urlParams.get('column');
+            var query = urlParams.get('query');
+
+            if (category != null) {
+                document.getElementById('column').value = category;
+                document.getElementById('query').value = query;
             }
         </script>
     </body>

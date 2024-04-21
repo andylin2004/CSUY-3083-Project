@@ -69,14 +69,14 @@
         </div>
         <form class="d-flex" method="get" role="search">
             <div class="input-group mb-3">
-                <select class="input-group-text" id="form-control" name="column">
+                <select class="input-group-text" id="column" name="column">
                     <option value="a_id">Appeal ID</option>
                     <option value="c_id">Crime ID</option>
                     <option value="file_date">Filing Date</option>
                     <option value="hear_date">Hearing Date</option>
                     <option value="status">Status</option>
                 </select>
-                <input type="text" class="form-control" aria-label="Search" placeholder="Search" id="search" name="query" maxlength=100">
+                <input type="text" class="form-control" aria-label="Search" placeholder="Search" id="query" name="query" maxlength=100">
                 <input type="submit" class="btn btn-outline-success" value="Search">
             </div>
         </form>
@@ -246,6 +246,17 @@
                 editForm.querySelector("#file_date").valueAsDate = new Date(appeal["Filing_date"]);
                 editForm.querySelector("#hearing_date").valueAsDate = new Date(appeal['Hearing_date']);
                 editForm.querySelector("#status").value = appeal['Status'];
+            }
+
+            var queryStr = window.location.search;
+            var urlParams = new URLSearchParams(queryStr);
+            
+            var category = urlParams.get('column');
+            var query = urlParams.get('query');
+
+            if (category != null) {
+                document.getElementById('column').value = category;
+                document.getElementById('query').value = query;
             }
         </script>
     </body>

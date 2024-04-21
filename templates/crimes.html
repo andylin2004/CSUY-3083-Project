@@ -69,7 +69,7 @@
         </div>
         <form class="d-flex" method="get" role="search">
             <div class="input-group mb-3">
-                <select class="input-group-text" id="form-control" name="column">
+                <select class="input-group-text" id="column" name="column">
                     <option value="cr_id">Charge ID</option>
                     <option value="c_id">Crime ID</option>
                     <option value="classification">Classification</option>
@@ -78,7 +78,7 @@
                     <option value="hearing_date">Hearing Date</option>
                     <option value="appeal_cutoff_date">Appeal Cutoff Date</option>
                 </select>
-                <input type="text" class="form-control" aria-label="Search" placeholder="Search" id="search" name="query" maxlength=100">
+                <input type="text" class="form-control" aria-label="Search" placeholder="Search" id="query" name="query" maxlength=100">
                 <input type="submit" class="btn btn-outline-success" value="Search">
             </div>
         </form>
@@ -298,6 +298,17 @@
                 editForm.querySelector("#status").value = crime['Status'];
                 editForm.querySelector("#hearing_date").valueAsDate = new Date(crime['Hearing_date']);
                 editForm.querySelector("#cutoff_date").valueAsDate = new Date(crime['Appeal_cut_date']);
+            }
+
+            var queryStr = window.location.search;
+            var urlParams = new URLSearchParams(queryStr);
+            
+            var category = urlParams.get('column');
+            var query = urlParams.get('query');
+
+            if (category != null) {
+                document.getElementById('column').value = category;
+                document.getElementById('query').value = query;
             }
         </script>
     </body>
