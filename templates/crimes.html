@@ -288,6 +288,7 @@
                                 <input type="date" name="cutoff_date" id="cutoff_date" class="form-control">
                             </div>
                         </div>
+                        <a href="/criminal" class="btn btn-primary" id="criminal-ref">View Info About Criminal</a>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
@@ -310,6 +311,7 @@
                 editForm.querySelector("#status").value = crime['Status'];
                 editForm.querySelector("#hearing_date").valueAsDate = new Date(crime['Hearing_date']);
                 editForm.querySelector("#cutoff_date").valueAsDate = new Date(crime['Appeal_cut_date']);
+                editForm.querySelector("#criminal-ref").href = "/criminals?showID="+crime['Criminal_ID'];
             }
 
             var queryStr = window.location.search;

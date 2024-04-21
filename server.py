@@ -138,7 +138,6 @@ def crimes():
             dn = runstatement("CALL get_crimes(%s,%s,%s,%s,%s,%s,%s);", tuple([sql_params[column] for column in param_order]))
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
-            print(datas)
             if show_id is not None and show_id.isdigit():
                 specific_crime = [x for x in datas if x['Crime_ID'] == int(show_id)]
                 if len(specific_crime) > 0:
@@ -162,12 +161,20 @@ def criminals():
             sql_params[column] = ""
         column = request.args.get("column")
         query = request.args.get("query")
+        show_id = request.args.get("showID")
         sql_params[column] = query
         datas = []
         try:
             dn = runstatement("CALL get_criminals(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
+
+            if show_id is not None and show_id.isdigit():
+                specific_criminal = [x for x in datas if x['Criminal_ID'] == int(show_id)]
+                if len(specific_criminal) > 0:
+                    specific_criminal = specific_criminal[0]
+                    print(datas)
+                    return render_template("criminals.html", criminals=datas, specific_criminal=specific_criminal)
         except Exception as e:
             flash(str(e), 'error')
         return render_template("criminals.html", criminals=datas)
@@ -742,4 +749,4 @@ def edit_sentence():
     return redirect("/sentences")
 
 if __name__ == '__main__':
-    app.run(port=5002)
+    app.run(port=5002, debug=True)

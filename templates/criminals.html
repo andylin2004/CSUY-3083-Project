@@ -400,7 +400,7 @@
         <script>
             var editForm = document.getElementById("editModal");
 
-            async function showInfo(criminal) {
+            function showInfo(criminal) {
                 editForm.querySelector("#c_id").value = criminal['Criminal_ID'];
                 editForm.querySelector("#l_name").value = criminal['Last'];
                 editForm.querySelector("#f_name").value = criminal['First'];
@@ -417,7 +417,18 @@
                 editForm.querySelector("#sentencesEmbed").setAttribute("data-storedToLoad", "/sentences?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
                 editForm.querySelector("#chargeEmbed").setAttribute("data-storedToLoad", "/charges?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
             }
+
+            var queryStr = window.location.search;
+            var urlParams = new URLSearchParams(queryStr);
+            
+            var showID = urlParams.get('showID');
+
+            if (showID) {
+                {% if specific_criminal %}
+                showInfo({{ specific_criminal | tojson | safe }});
+                bootstrap.Modal.getOrCreateInstance(editForm).show();
+                {% endif %}
+            }
         </script>
-        <script src="{{ url_for('static', filename='script.js')}}"></script>
     </body>
 </html>
