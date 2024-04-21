@@ -6,7 +6,7 @@ from flask_ngrok import run_with_ngrok
 
 app = Flask(__name__)
 
-run_with_ngrok(app)
+#run_with_ngrok(app)
 app.config["MYSQL_HOST"] = "10.18.222.220"
 # app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
@@ -238,7 +238,7 @@ def sign_up():
             flash('You didn\'t enter a clearance ID!', 'error')
             return redirect("/")
         else:
-            if clearance_id == "10":
+            if clearance_id == "10" or clearance_id == "3083":
                 try:
                     runstatement("CALL add_user(%s, %s);",(username, password))
                 except Exception as e:
@@ -649,4 +649,4 @@ def edit_sentence():
     return redirect("/sentences")
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(port=5002)
