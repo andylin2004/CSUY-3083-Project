@@ -72,13 +72,15 @@ def appeals():
                 dn = runstatement("CALL get_appeals_by_criminal_id(%s);", (query,))
             else:
                 dn = runstatement("CALL get_appeals(%s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
-                if show_id is not None and show_id.isdigit():
-                    specific_appeal = [x for x in datas if x['Appeal_ID'] == int(show_id)]
-                    if len(specific_appeal) > 0:
-                        specific_appeal = specific_appeal[0]
-                        return render_template("appeals.html", appeals=datas, specific_appeal=specific_appeal)
+            
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
+            if show_id is not None and show_id.isdigit():
+                specific_appeal = [x for x in datas if x['Appeal_ID'] == int(show_id)]
+                if len(specific_appeal) > 0:
+                    specific_appeal = specific_appeal[0]
+                    return render_template("appeals.html", appeals=datas, specific_appeal=specific_appeal)
+            
         except Exception as e:
             flash(str(e), 'error')
 
@@ -95,12 +97,24 @@ def charges():
             sql_params[column] = ""
         column = request.args.get("column")
         query = request.args.get("query")
+        show_id = request.args.get("showID")
         sql_params[column] = query
         datas = []
         try:
-            dn = runstatement("CALL get_charges(%s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+            if column == "criminal_id":
+                dn = runstatement("CALL get_charges_by_criminal_id(%s);", (query,))
+            else:
+                dn = runstatement("CALL get_charges(%s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
+            
+            if show_id is not None and show_id.isdigit():
+                specific_charge = [x for x in datas if x['Appeal_ID'] == int(show_id)]
+                if len(specific_charge) > 0:
+                    specific_charge = specific_charge[0]
+                    return render_template("charges.html", charges=datas, specific_charge=specific_charge)
+            
         except Exception as e:
             flash(str(e), 'error')
 
