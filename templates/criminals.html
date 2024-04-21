@@ -351,22 +351,33 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#crimesCommitted" aria-expanded="false" aria-controls="crimesCommitted">
-                        Crimes Committed
-                        </button>
-                        <div class="collapse" id="crimesCommitted">
-                            <div class="card card-body">
-                              <iframe id="crimesCommittedEmbed" src="" height="500"></iframe>
+                        
+                        <div class="external-record-group">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#crimesCommitted" aria-expanded="false" aria-controls="crimesCommitted">
+                                Crimes Committed
+                            </button>
+                            <div class="collapse" id="crimesCommitted">
+                                <div class="card card-body">
+                                  <iframe id="crimesCommittedEmbed" src="" height="500"></iframe>
+                                </div>
                             </div>
-                        </div>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#appealsMade" aria-expanded="false" aria-controls="appealsMade">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#appealsMade" aria-expanded="false" aria-controls="appealsMade">
                             Appeals Made
                             </button>
                             <div class="collapse" id="appealsMade">
                                 <div class="card card-body">
-                                  <iframe id="appealsMadeEmbed" src="" height="500"></iframe>
+                                    <iframe id="appealsMadeEmbed" src="" height="500"></iframe>
                                 </div>
                             </div>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#sentencesInRecord" aria-expanded="false" aria-controls="sentencesInRecord">
+                            Sentences in Record
+                            </button>
+                            <div class="collapse" id="sentencesInRecord">
+                                <div class="card card-body">
+                                    <iframe id="sentencesEmbed" src="" height="500"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
@@ -381,12 +392,7 @@
         <script>
             var editForm = document.getElementById("editModal");
 
-            editForm.addEventListener('hidden.bs.modal', event => {
-                bootstrap.Collapse.getOrCreateInstance(editForm.querySelector("#appealsMade")).hide();
-                bootstrap.Collapse.getOrCreateInstance(editForm.querySelector("#crimesCommitted")).hide();
-            });
-
-            function showInfo(criminal) {
+            async function showInfo(criminal) {
                 editForm.querySelector("#c_id").value = criminal['Criminal_ID'];
                 editForm.querySelector("#l_name").value = criminal['Last'];
                 editForm.querySelector("#f_name").value = criminal['First'];
@@ -398,17 +404,12 @@
                 editForm.querySelector("#phone").value = criminal['Phone'];
                 editForm.querySelector("#vio_offender").checked = (criminal['V_status'] === "Y");
                 editForm.querySelector("#probation_stat").checked = (criminal['P_status'] === "Y");
-                editForm.querySelector("#crimesCommitted").addEventListener('show.bs.collapse', event=> {
-                    editForm.querySelector("#crimesCommittedEmbed").src += "";
-                });
-                editForm.querySelector("#appealsMade").addEventListener('show.bs.collapse', event=> {
-                    editForm.querySelector("#appealsMadeEmbed").src += "";
-                });
                 editForm.querySelector("#appealsMadeEmbed").src = "/appeals?embed=true&column=criminal_id&query="+criminal['Criminal_ID'];
+                await sleep(1000);
                 editForm.querySelector("#crimesCommittedEmbed").src = "/crimes?embed=true&column=criminal_id&query="+criminal['Criminal_ID'];
+                await sleep(1000);
+                editForm.querySelector("#sentencesEmbed").src = "/sentences?embed=true&column=criminal_id&query="+criminal['Criminal_ID'];
             }
-
-            endEditFieldsIn('main-group');
         </script>
         <script src="{{ url_for('static', filename='script.js')}}"></script>
     </body>

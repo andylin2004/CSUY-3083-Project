@@ -265,6 +265,7 @@ def login():
     result = 0
 
     cursor =  connection.cursor()
+    cursor.connection.ping()
    # Call the stored procedure
     cursor.callproc('check_user', (username, password))
 
