@@ -74,7 +74,7 @@
                     <option value="s_id">Sentence ID</option>
                     <option value="c_id">Criminal ID</option>
                     <option value="type">Type</option>
-                    <option value="p_id">Probation ID</option>
+                    <option value="p_id">Assigned Probation Officer ID</option>
                     <option value="start_date">Start Date</option>
                     <option value="end_date">End Date</option>
                     <option value="violations">Violations</option>
@@ -276,6 +276,8 @@
                                 <input type="text" name="violations" id="violations" class="form-control">
                             </div>
                         </div>
+                        <a href="/criminal" class="btn btn-primary" id="criminal-ref" target="_blank">View Info About Criminal</a>
+                        <a href="/probation_officers" class="btn btn-primary" id="prob-officer-ref" target="_blank">View Info About Probation Officer</a>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
@@ -298,6 +300,8 @@
                 editForm.querySelector("#start_date").valueAsDate = new Date(sentence['Start_date']);
                 editForm.querySelector("#end_date").valueAsDate = new Date(sentence['End_date']);
                 editForm.querySelector("#violations").value = sentence['Violations'];
+                editForm.querySelector("#criminal-ref").href = "/criminals?showID="+sentence['Criminal_ID'];
+                editForm.querySelector("#prob-officer-ref").href = "/probation_officers?showID="+sentence['Prob_ID'];
             }
 
             var queryStr = window.location.search;

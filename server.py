@@ -211,6 +211,7 @@ def probation_officers():
         sql_params[column] = ""
     column = request.args.get("column")
     query = request.args.get("query")
+    show_id = request.args.get("showID")
     sql_params[column] = query
     if "username" in session:
         datas = []
@@ -218,6 +219,13 @@ def probation_officers():
             dn =runstatement("CALL get_prob_officers(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
+
+            if show_id is not None and show_id.isdigit():
+                specific_prob_officer = [x for x in datas if x['Prob_ID'] == int(show_id)]
+                if len(specific_prob_officer) > 0:
+                    specific_prob_officer = specific_prob_officer[0]
+                    print(datas)
+                    return render_template("probation_officers.html", prob_officers=datas, specific_prob_officer=specific_prob_officer)
         except Exception as e:
             flash(str(e), 'error')
         
