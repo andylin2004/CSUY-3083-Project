@@ -289,6 +289,7 @@ def add_criminal():
         if len(alias) > 0:
             try:
                 runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (a_id, c_id, alias))
+                flash('Successfully added a new criminal!', 'success')
             except Exception as e:
                 flash(str(e), 'error')
     except Exception as e:
@@ -309,6 +310,7 @@ def add_crime():
 
     try:
         runstatement("CALL add_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
+        flash('Successfully added a new crime!', 'success')
     except Exception as e:
         flash(str(e), 'error')
 
@@ -329,6 +331,7 @@ def add_probation_officer():
 
     try:
         runstatement("CALL add_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
+        flash('Successfully added a new probation officer!', 'success')
     except Exception as e:
         flash(str(e), 'error')
 
@@ -346,6 +349,7 @@ def add_officer():
 
     try:
         runstatement("CALL add_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
+        flash('Successfully added a new officer!', 'success')
     except Exception as e:
         flash(str(e), 'error')
 
@@ -361,6 +365,7 @@ def add_appeal():
 
     try:
         runstatement("CALL add_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
+        flash('Successfully added a new appeal!', 'success')
     except Exception as e:
         flash(str(e), 'error')
 
@@ -379,6 +384,7 @@ def add_charge():
 
     try:
         runstatement("CALL add_Crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
+        flash('Successfully added a new charge!', 'success')
     except Exception as e:
         flash(str(e), 'error')
 
@@ -396,6 +402,7 @@ def add_sentence():
 
     try:
         runstatement("CALL add_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
+        flash('Successfully added a new sentence!', 'success')
     except Exception as e:
         flash(str(e), 'error')
 
@@ -407,6 +414,7 @@ def delete_crimes():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteCrimes(%s);", (int(i.split("check")[1]),))
+            flash('Successfully deleted a crime!', 'success')
         except Exception as e:
             flash(str(e), 'error')
     return redirect("/crimes")
@@ -417,6 +425,7 @@ def delete_criminal():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteCriminal(%s);", (int(i.split("check")[1]),))
+            flash('Successfully deleted a criminal!', 'success')
         except Exception as e:
             flash(str(e), 'error')
     return redirect("/criminals")
@@ -427,6 +436,7 @@ def delete_prob_officer():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteProb(%s);", (int(i.split("check")[1]),))
+            flash('Successfully deleted a probation officer!', 'success')
         except Exception as e:
             flash(str(e), 'error')
     return redirect("/probation_officers")
@@ -437,6 +447,7 @@ def delete_officer():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteOfficer(%s);", (int(i.split("check")[1]),))
+            flash('Successfully deleted an officer!', 'success')
         except Exception as e:
             flash(str(e), 'error')
     return redirect("/officers")
@@ -447,6 +458,7 @@ def delete_appeal():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteAppeals(%s);", (int(i.split("check")[1]),))
+            flash('Successfully deleted an appeal!', 'success')
         except Exception as e:
             flash(str(e), 'error')
     return redirect("/appeals")
@@ -457,6 +469,7 @@ def delete_charges():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteCrimeCharges(%s);", (int(i.split("check")[1]),))
+            flash('Successfully deleted a charge!', 'success')
         except Exception as e:
             flash(str(e), 'error')
     return redirect("/charges")
@@ -467,6 +480,7 @@ def delete_sentences():
         print((int(i.split("check")[1]),))
         try:
             runstatement("CALL deleteSentences(%s);", (int(i.split("check")[1]),))
+            flash('Successfully deleted a sentence!', 'success')
         except Exception as e:
             flash(str(e), 'error')
     return redirect("/sentences")
@@ -496,6 +510,7 @@ def edit_criminal():
 
     try:
         runstatement("CALL update_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
+        flash('Successfully deleted a criminal entry!', 'success')
     except Exception as e:
         flash(str(e), 'error')
 
@@ -513,6 +528,7 @@ def edit_crime():
 
     try:
         runstatement("CALL update_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
+        flash('Successfully edited a crime entry!', 'success')
     except Exception as e:
         flash(str(e), 'error')
                  
@@ -533,6 +549,7 @@ def edit_prob_officer():
 
     try:
         runstatement("CALL update_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
+        flash('Successfully edited a probation officer entry!', 'success')
     except Exception as e:
         flash(str(e), 'error')
                  
@@ -552,6 +569,7 @@ def edit_officer():
 
     try:
         runstatement("CALL update_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
+        flash('Successfully edited an officer entry!', 'success')
     except Exception as e:
         flash(str(e), 'error')
 
@@ -567,6 +585,7 @@ def edit_appeal():
 
     try:
         runstatement("CALL update_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
+        flash('Successfully edited an appeal entry!', 'success')
     except Exception as e:
         flash(str(e), 'error')
 
@@ -585,6 +604,7 @@ def edit_charge():
 
     try:
         runstatement("CALL update_crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
+        flash('Successfully edited a charge entry!', 'success')
     except Exception as e:
         flash(str(e), 'error')
 
@@ -602,6 +622,7 @@ def edit_sentence():
 
     try:
         runstatement("CALL update_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
+        flash('Successfully edited a sentence entry!', 'success')
     except Exception as e:
         flash(str(e), 'error')
 

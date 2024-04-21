@@ -42,15 +42,20 @@
             </div>
         </div>
         </nav>
-        {% with errors = get_flashed_messages(category_filter=["error"]) %}
-        {% if success %}
-        <div class="alert alert-success" role="alert">
-            A simple success alert—check it out!
-        </div>
-        {% elif errors %}
+         {% with errors = get_flashed_messages(category_filter=["error"]) %}
+        {% if errors %}
         <div class="alert alert-danger" role="alert">
             Errors:
             {%- for msg in errors %}
+                <li>{{ msg }}</li>
+            {% endfor -%}
+        </div>
+        {% endif %}
+        {% endwith %}
+        {% with successes = get_flashed_messages(category_filter=["success"]) %}
+        {% if successes %}
+        <div class="alert alert-success" role="alert">
+            {%- for msg in successes %}
                 <li>{{ msg }}</li>
             {% endfor -%}
         </div>
