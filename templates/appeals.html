@@ -180,7 +180,7 @@
                   <h1 class="modal-title fs-5" id="editModalLabel">Edit Appeal</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="post">
+                <form method="post" id="main-group">
                     <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col-sm-2 col-form-label">
@@ -246,6 +246,20 @@
                 editForm.querySelector("#file_date").valueAsDate = new Date(appeal["Filing_date"]);
                 editForm.querySelector("#hearing_date").valueAsDate = new Date(appeal['Hearing_date']);
                 editForm.querySelector("#status").value = appeal['Status'];
+            }
+
+            function editFieldsIn(id_name) {
+                var baseID = "#" + id_name;
+                document.querySelectorAll(baseID + " input, " + baseID + " select").forEach(function(element) {
+                    element.removeAttribute("disabled");
+                });
+            }
+            
+            function endEditFieldsIn(id_name) {
+                var baseID = "#" + id_name;
+                document.querySelectorAll(baseID + " input, " + baseID + " select").forEach(function(element) {
+                    element.setAttribute("disabled", true);
+                });
             }
 
             var queryStr = window.location.search;

@@ -202,7 +202,7 @@
                   <h1 class="modal-title fs-5" id="editModalLabel">Edit Sentence</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="post">
+                <form method="post" id="main-group">
                     <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col-sm-2 col-form-label">
@@ -288,6 +288,20 @@
                 editForm.querySelector("#violations").value = sentence['Violations'];
             }
             
+            function editFieldsIn(id_name) {
+                var baseID = "#" + id_name;
+                document.querySelectorAll(baseID + " input, " + baseID + " select").forEach(function(element) {
+                    element.removeAttribute("disabled");
+                });
+            }
+            
+            function endEditFieldsIn(id_name) {
+                var baseID = "#" + id_name;
+                document.querySelectorAll(baseID + " input, " + baseID + " select").forEach(function(element) {
+                    element.setAttribute("disabled", true);
+                });
+            }
+
             var queryStr = window.location.search;
             var urlParams = new URLSearchParams(queryStr);
             
