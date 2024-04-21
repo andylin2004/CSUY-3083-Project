@@ -6,14 +6,15 @@ from flask_ngrok import run_with_ngrok
 
 app = Flask(__name__)
 
-run_with_ngrok(app)
-app.config["MYSQL_HOST"] = "10.18.222.220"
+# run_with_ngrok(app)
+# app.config["MYSQL_HOST"] = "10.18.222.220"
+app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "criminals"
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-connection = pymysql.connect(host="10.18.222.220",
+connection = pymysql.connect(host="localhost",
                              user="root",
                              password="",
                              database="criminals")
@@ -54,10 +55,14 @@ def appeals():
         column = request.args.get("column")
         query = request.args.get("query")
         sql_params[column] = query
-        dn = runstatement("CALL get_appeals(%s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
         datas = []
-        for _,j in dn.iterrows():
-            datas.append(j.to_dict())
+        try:
+            dn = runstatement("CALL get_appeals(%s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+            for _,j in dn.iterrows():
+                datas.append(j.to_dict())
+        except:
+            flash('', 'error')
+
         return render_template("appeals.html", appeals=datas)
     else:
         return redirect("/")
@@ -72,10 +77,14 @@ def charges():
         column = request.args.get("column")
         query = request.args.get("query")
         sql_params[column] = query
-        dn = runstatement("CALL get_charges(%s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
         datas = []
-        for _,j in dn.iterrows():
-            datas.append(j.to_dict())
+        try:
+            dn = runstatement("CALL get_charges(%s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+            for _,j in dn.iterrows():
+                datas.append(j.to_dict())
+        except:
+            flash('', 'error')
+
         return render_template("charges.html", charges=datas)
     else:
         return redirect("/")
@@ -90,10 +99,14 @@ def crimes():
         column = request.args.get("column")
         query = request.args.get("query")
         sql_params[column] = query
-        dn = runstatement("CALL get_crimes(%s,%s,%s,%s,%s,%s,%s);", tuple([sql_params[column] for column in param_order]))
         datas = []
-        for _,j in dn.iterrows():
-            datas.append(j.to_dict())
+        try:
+            dn = runstatement("CALL get_crimes(%s,%s,%s,%s,%s,%s,%s);", tuple([sql_params[column] for column in param_order]))
+            for _,j in dn.iterrows():
+                datas.append(j.to_dict())
+        except:
+            flash('', 'error')
+        
         return render_template("crimes.html", crimes=datas)
     else:
         return redirect("/")
@@ -108,10 +121,13 @@ def criminals():
         column = request.args.get("column")
         query = request.args.get("query")
         sql_params[column] = query
-        dn = runstatement("CALL get_criminals(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
         datas = []
-        for _,j in dn.iterrows():
-            datas.append(j.to_dict())
+        try:
+            dn = runstatement("CALL get_criminals(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+            for _,j in dn.iterrows():
+                datas.append(j.to_dict())
+        except:
+            flash('', 'error')
         return render_template("criminals.html", criminals=datas)
     else:
         return redirect("/")
@@ -126,10 +142,14 @@ def officers():
         column = request.args.get("column")
         query = request.args.get("query")
         sql_params[column] = query
-        dn = runstatement("CALL get_officers(%s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
         datas = []
-        for _,j in dn.iterrows():
-            datas.append(j.to_dict())
+        try:
+            dn = runstatement("CALL get_officers(%s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+            for _,j in dn.iterrows():
+                datas.append(j.to_dict())
+        except:
+            flash('', 'error')
+            
         return render_template("officers.html", officers=datas)
     else:
         return redirect("/")
@@ -144,10 +164,14 @@ def probation_officers():
     query = request.args.get("query")
     sql_params[column] = query
     if "username" in session:
-        dn = runstatement("CALL get_prob_officers(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
         datas = []
-        for _,j in dn.iterrows():
-            datas.append(j.to_dict())
+        try:
+            dn =runstatement("CALL get_prob_officers(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+            for _,j in dn.iterrows():
+                datas.append(j.to_dict())
+        except:
+            flash('', 'error')
+        
         return render_template("probation_officers.html", prob_officers=datas)
     else:
         return redirect("/")
@@ -162,11 +186,15 @@ def sentences():
         column = request.args.get("column")
         query = request.args.get("query")
         sql_params[column] = query
-        dn = runstatement("CALL get_sentences(%s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
-        datas = []
-        for _,j in dn.iterrows():
-            datas.append(j.to_dict())
-        return render_template("sentences.html", sentences=datas)
+        try:
+            dn = runstatement("CALL get_sentences(%s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+            datas = []
+            for _,j in dn.iterrows():
+                datas.append(j.to_dict())
+            return render_template("sentences.html", sentences=datas)
+        except:
+            flash('', 'error')
+            return redirect("/")
     else:
         return redirect("/")
 
@@ -192,7 +220,10 @@ def sign_up():
             return redirect("/")
         else:
             if clearance_id == "10":
-                dn = runstatement("CALL add_user(%s, %s);",(username, password))
+                try:
+                    runstatement("CALL add_user(%s, %s);",(username, password))
+                except:
+                    flash('', 'error')
             return redirect("/")
 
 @app.route("/login", methods=['POST'])
@@ -253,9 +284,16 @@ def add_criminal():
     else:
         probation_stat = 'N'
 
-    runstatement("CALL add_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
-    if len(alias) > 0:
-        runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (a_id, c_id, alias))
+    try:
+        runstatement("CALL add_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
+        if len(alias) > 0:
+            try:
+                runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (a_id, c_id, alias))
+            except:
+                flash('', 'error')
+    except:
+        flash('', 'error')
+    
 
     return redirect("/criminals")
 
@@ -269,7 +307,10 @@ def add_crime():
     hearing_date = request.form.get("hearing_date")
     cutoff_date = request.form.get("cutoff_date")
 
-    runstatement("CALL add_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
+    try:
+        runstatement("CALL add_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
+    except:
+        flash('', 'error')
 
     return redirect("/crimes")
 
@@ -286,7 +327,10 @@ def add_probation_officer():
     email = request.form.get("email")
     status = request.form.get("status")
 
-    runstatement("CALL add_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
+    try:
+        runstatement("CALL add_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
+    except:
+        flash('', 'error')
 
     return redirect("/probation_officers")
 
@@ -300,7 +344,10 @@ def add_officer():
     badge = request.form.get("badge")
     status = request.form.get("status")
 
-    runstatement("CALL add_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
+    try:
+        runstatement("CALL add_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
+    except:
+        flash('', 'error')
 
     return redirect("/officers")
 
@@ -312,7 +359,10 @@ def add_appeal():
     hearing_date = request.form.get("hearing_date")
     status = request.form.get("status")
 
-    runstatement("CALL add_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
+    try:
+        runstatement("CALL add_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
+    except:
+        flash('', 'error')
 
     return redirect("/appeals")
 
@@ -327,7 +377,10 @@ def add_charge():
     amount_paid = request.form.get("amount_paid")
     due_date = request.form.get("due_date")
 
-    runstatement("CALL add_Crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
+    try:
+        runstatement("CALL add_Crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
+    except:
+        flash('', 'error')
 
     return redirect("/charges")
     
@@ -341,7 +394,10 @@ def add_sentence():
     end_date = request.form.get("end_date")
     violations = request.form.get("violations")
 
-    runstatement("CALL add_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
+    try:
+        runstatement("CALL add_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
+    except:
+        flash('', 'error')
 
     return redirect("/sentences")
 
@@ -349,49 +405,70 @@ def add_sentence():
 def delete_crimes():
     for (i,_) in request.form.items():
         print((int(i.split("check")[1]),))
-        runstatement("CALL deleteCrimes(%s);", (int(i.split("check")[1]),))
+        try:
+            runstatement("CALL deleteCrimes(%s);", (int(i.split("check")[1]),))
+        except:
+            flash('', 'error')
     return redirect("/crimes")
 
 @app.route('/delete-criminals', methods=['POST'])
 def delete_criminal():
     for (i,_) in request.form.items():
         print((int(i.split("check")[1]),))
-        runstatement("CALL deleteCriminal(%s);", (int(i.split("check")[1]),))
+        try:
+            runstatement("CALL deleteCriminal(%s);", (int(i.split("check")[1]),))
+        except:
+            flash('', 'error')
     return redirect("/criminals")
 
 @app.route('/delete-probation-officer', methods=['POST'])
 def delete_prob_officer():
     for (i,_) in request.form.items():
         print((int(i.split("check")[1]),))
-        runstatement("CALL deleteProb(%s);", (int(i.split("check")[1]),))
+        try:
+            runstatement("CALL deleteProb(%s);", (int(i.split("check")[1]),))
+        except:
+            flash('', 'error')
     return redirect("/probation_officers")
 
 @app.route('/delete-officer', methods=['POST'])
 def delete_officer():
     for (i,_) in request.form.items():
         print((int(i.split("check")[1]),))
-        runstatement("CALL deleteOfficer(%s);", (int(i.split("check")[1]),))
+        try:
+            runstatement("CALL deleteOfficer(%s);", (int(i.split("check")[1]),))
+        except:
+            flash('', 'error')
     return redirect("/officers")
 
 @app.route('/delete-appeals', methods=['POST'])
 def delete_appeal():
     for (i,_) in request.form.items():
         print((int(i.split("check")[1]),))
-        runstatement("CALL deleteAppeals(%s);", (int(i.split("check")[1]),))
+        try:
+            runstatement("CALL deleteAppeals(%s);", (int(i.split("check")[1]),))
+        except:
+            flash('', 'error')
     return redirect("/appeals")
 
 @app.route('/delete-charges', methods=['POST'])
 def delete_charges():
     for (i,_) in request.form.items():
         print((int(i.split("check")[1]),))
-        runstatement("CALL deleteCrimeCharges(%s);", (int(i.split("check")[1]),))
+        try:
+            runstatement("CALL deleteCrimeCharges(%s);", (int(i.split("check")[1]),))
+        except:
+            flash('', 'error')
     return redirect("/charges")
 
 @app.route('/delete-sentences', methods=['POST'])
 def delete_sentences():
     for (i,_) in request.form.items():
         print((int(i.split("check")[1]),))
-        runstatement("CALL deleteSentences(%s);", (int(i.split("check")[1]),))
+        try:
+            runstatement("CALL deleteSentences(%s);", (int(i.split("check")[1]),))
+        except:
+            flash('', 'error')
     return redirect("/sentences")
 
 @app.route("/edit-criminal", methods=['POST'])
@@ -417,7 +494,10 @@ def edit_criminal():
     else:
         probation_stat = 'N'
 
-    runstatement("CALL update_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
+    try:
+        runstatement("CALL update_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
+    except:
+        flash('', 'error')
 
     return redirect("/criminals")
 
@@ -431,7 +511,10 @@ def edit_crime():
     hearing_date = request.form.get("hearing_date")
     cutoff_date = request.form.get("cutoff_date")
 
-    runstatement("CALL update_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
+    try:
+        runstatement("CALL update_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
+    except:
+        flash('', 'error')
                  
     return redirect("/crimes")
 
@@ -448,7 +531,10 @@ def edit_prob_officer():
     email = request.form.get("email")
     status = request.form.get("status")
 
-    runstatement("CALL update_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
+    try:
+        runstatement("CALL update_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
+    except:
+        flash('', 'error')
                  
     return redirect("/probation_officers")
 
@@ -464,7 +550,10 @@ def edit_officer():
 
     print(officer_id)
 
-    runstatement("CALL update_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
+    try:
+        runstatement("CALL update_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
+    except:
+        flash('', 'error')
 
     return redirect("/officers")
 
@@ -476,7 +565,10 @@ def edit_appeal():
     hearing_date = request.form.get("hearing_date")
     status = request.form.get("status")
 
-    runstatement("CALL update_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
+    try:
+        runstatement("CALL update_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
+    except:
+        flash('', 'error')
 
     return redirect("/appeals")
 
@@ -491,7 +583,10 @@ def edit_charge():
     amount_paid = request.form.get("amount_paid")
     due_date = request.form.get("due_date")
 
-    runstatement("CALL update_crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
+    try:
+        runstatement("CALL update_crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
+    except:
+        flash('', 'error')
 
     return redirect("/charges")
 
@@ -505,7 +600,10 @@ def edit_sentence():
     end_date = request.form.get("end_date")
     violations = request.form.get("violations")
 
-    runstatement("CALL update_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
+    try:
+        runstatement("CALL update_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
+    except:
+        flash('', 'error')
 
     return redirect("/sentences")
 
