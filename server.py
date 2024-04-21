@@ -35,6 +35,18 @@ def runstatement(statement, args=None):
 
 @app.route("/")
 def go_to_index():
+    try:
+        thing = session["username"]
+
+    except Exception as e:
+        thing = ""
+    if thing != "" or thing:
+        print(thing)
+        dn = runstatement("CALL check_user_grant(%s)", (thing))
+        print(dn)
+        if("UPDATE" in dn):
+            print('hello')
+
     session.pop('username', None)
     return render_template("index.html")
 
@@ -240,7 +252,8 @@ def sign_up():
         else:
             if clearance_id == "10" or clearance_id == "3083":
                 try:
-                    runstatement("CALL add_user(%s, %s);",(username, password))
+                    runstatement("CALL add_user_procedure(%s, %s, %s);",(username, password, clearance_id))
+
                 except Exception as e:
                     flash(str(e), 'error')
             return redirect("/")
