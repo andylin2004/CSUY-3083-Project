@@ -1,10 +1,3 @@
-var editForm = document.getElementById("editModal");
-
-function hideDisclosures() {
-    editForm.querySelectorAll(".external-record-group.collapse").forEach(function(element) {
-        bootstrap.Collapse.getOrCreateInstance(element).hide();
-    });
-}
 var editing = false;
 
 function editFieldsIn(id_name) {
@@ -23,7 +16,7 @@ function endEditFieldsIn(id_name) {
     editing = false;
 }
 
-document.addEventListener("DOMContentLoaded", event => {
+function pageLoadTasks() {
     var queryStr = window.location.search;
     var urlParams = new URLSearchParams(queryStr);
     
@@ -45,14 +38,28 @@ document.addEventListener("DOMContentLoaded", event => {
             element.removeAttribute("data-bs-target");
         })
     }
+    var editForm = document.getElementById("editModal");
+
+    function hideDisclosures() {
+        editForm.querySelectorAll(".external-record-group .collapse").forEach(function (element) {
+            bootstrap.Collapse.getOrCreateInstance(element).hide();
+        });
+    }
+    
     endEditFieldsIn('main-group');
 
-    editForm.querySelectorAll(".external-record-group.collapse").forEach(function(element) {
-        element.querySelector("iframe").src += "";
+    editForm.querySelectorAll(".external-record-group.collapse").forEach(function (element) {
+        element.addEventListener('show.bs.collapse', refresh);
+        
+        function refresh() {
+            element.querySelector("iframe").src += "";
+        }
     });
 
-    editForm.addEventListener('hidden.bs.modal', hideDisclosures);
-});
+    editForm.addEventListener('hide.bs.modal', hideDisclosures);
+}
+
+document.addEventListener("DOMContentLoaded", pageLoadTasks);
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
