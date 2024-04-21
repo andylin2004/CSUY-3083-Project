@@ -1,3 +1,12 @@
+var editForm = document.getElementById("editModal");
+
+function hideDisclosures() {
+    editForm.querySelectorAll(".external-record-group.collapse").forEach(function(element) {
+        bootstrap.Collapse.getOrCreateInstance(element).hide();
+    });
+}
+editForm.addEventListener('hidden.bs.modal', hideDisclosures);
+
 var editing = false;
 
 function editFieldsIn(id_name) {
@@ -38,4 +47,13 @@ document.addEventListener("DOMContentLoaded", event => {
             element.removeAttribute("data-bs-target");
         })
     }
+    endEditFieldsIn('main-group');
+
+    editForm.querySelectorAll(".external-record-group.collapse").forEach(function(element) {
+        element.querySelector("iframe").src += "";
+    });
 });
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
