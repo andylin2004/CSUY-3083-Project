@@ -165,7 +165,11 @@ def criminals():
         sql_params[column] = query
         datas = []
         try:
-            dn = runstatement("CALL get_criminals(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+            if column == "p_id":
+                dn = runstatement("CALL get_criminals_by_prob_id(%s);", (query,))
+            else:
+                dn = runstatement("CALL get_criminals(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+                
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
 

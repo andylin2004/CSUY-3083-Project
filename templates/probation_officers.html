@@ -2,6 +2,7 @@
 <html>
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="{{ url_for('static', filename='script.js')}}"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -338,6 +339,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="external-record-group">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#sentencesResponsible" aria-expanded="false" aria-controls="sentencesResponsible">
+                                Sentences Caseload
+                            </button>
+                            <div class="collapse" id="sentencesResponsible">
+                                <div class="card card-body">
+                                  <iframe id="sentencesEmbed" height="500"></iframe>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#criminalsResponsible" aria-expanded="false" aria-controls="criminalsResponsible">
+                                Criminals Caseload
+                            </button>
+                            <div class="collapse" id="criminalsResponsible">
+                                <div class="card card-body">
+                                  <iframe id="criminalsEmbed" height="500"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
@@ -367,6 +386,8 @@
                 } else if (prob_officer['Status'] === "I") {
                     editForm.querySelector("#status #inactive").checked = true;
                 }
+                editForm.querySelector("#sentencesEmbed").setAttribute("data-storedToLoad", "/sentences?embed=true&column=p_id&query="+prob_officer['Prob_ID']);
+                editForm.querySelector("#criminalsEmbed").setAttribute("data-storedToLoad", "/criminals?embed=true&column=p_id&query="+prob_officer['Prob_ID']);
             }
 
             var queryStr = window.location.search;
@@ -381,6 +402,5 @@
                 {% endif %}
             }
         </script>
-        <script src="{{ url_for('static', filename='script.js')}}"></script>
     </body>
 </html>

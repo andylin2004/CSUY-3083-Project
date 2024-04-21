@@ -283,7 +283,17 @@
                                 <input type="date" name="cutoff_date" id="cutoff_date" class="form-control">
                             </div>
                         </div>
-                        <a href="/criminal" class="btn btn-primary" id="criminal-ref" target="_blank">View Info About Criminal</a>
+                        <div class="external-record-group">
+                            <a href="/criminal" class="btn btn-primary" id="criminal-ref" target="_blank">View Info About Criminal</a>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#appealsMade" aria-expanded="false" aria-controls="appealsMade">
+                                Appeals Made
+                            </button>
+                            <div class="collapse" id="appealsMade">
+                                <div class="card card-body">
+                                  <iframe id="appealsEmbed" height="500"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
@@ -307,6 +317,7 @@
                 editForm.querySelector("#hearing_date").valueAsDate = new Date(crime['Hearing_date']);
                 editForm.querySelector("#cutoff_date").valueAsDate = new Date(crime['Appeal_cut_date']);
                 editForm.querySelector("#criminal-ref").href = "/criminals?showID="+crime['Criminal_ID'];
+                editForm.querySelector("#appealsEmbed").setAttribute("data-storedToLoad", "/appeals?embed=true&column=a_id&query="+crime['Crime_ID']);
             }
 
             var queryStr = window.location.search;
