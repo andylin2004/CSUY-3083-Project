@@ -402,35 +402,9 @@
                 editForm.querySelector("#appealsMadeEmbed").src = "/appeals?embed=true&column=criminal_id&query="+criminal['Criminal_ID'];
                 editForm.querySelector("#crimesCommittedEmbed").src = "/crimes?embed=true&column=criminal_id&query="+criminal['Criminal_ID'];
             }
-            
-            function editFieldsIn(id_name) {
-                var baseID = "#" + id_name;
-                document.querySelectorAll(baseID + " input, " + baseID + " select").forEach(function(element) {
-                    element.removeAttribute("disabled");
-                });
-                editing = true;
-            }
-            
-            function endEditFieldsIn(id_name) {
-                var baseID = "#" + id_name;
-                document.querySelectorAll(baseID + " input, " + baseID + " select").forEach(function(element) {
-                    element.setAttribute("disabled", true);
-                });
-                editing = false;
-            }
-
-            var queryStr = window.location.search;
-            var urlParams = new URLSearchParams(queryStr);
-            
-            var category = urlParams.get('column');
-            var query = urlParams.get('query');
-
-            if (category != null) {
-                document.getElementById('column').value = category;
-                document.getElementById('query').value = query;
-            }
 
             endEditFieldsIn('main-group');
         </script>
+        <script src="{{ url_for('static', filename='script.js')}}"></script>
     </body>
 </html>

@@ -303,31 +303,7 @@
                     editForm.querySelector("#status").querySelector("#inactive").checked = true;
                 }
             }
-
-            function editFieldsIn(id_name) {
-                var baseID = "#" + id_name;
-                document.querySelectorAll(baseID + " input, " + baseID + " select").forEach(function(element) {
-                    element.removeAttribute("disabled");
-                });
-            }
-            
-            function endEditFieldsIn(id_name) {
-                var baseID = "#" + id_name;
-                document.querySelectorAll(baseID + " input, " + baseID + " select").forEach(function(element) {
-                    element.setAttribute("disabled", true);
-                });
-            }
-
-            var queryStr = window.location.search;
-            var urlParams = new URLSearchParams(queryStr);
-            
-            var category = urlParams.get('column');
-            var query = urlParams.get('query');
-
-            if (category != null) {
-                document.getElementById('column').value = category;
-                document.getElementById('query').value = query;
-            }
         </script>
+        <script src="{{ url_for('static', filename='script.js')}}"></script>
     </body>
 </html>

@@ -323,21 +323,6 @@
             var embed = urlParams.get('embed');
             var showID = urlParams.get('showID');
 
-            if (category != null) {
-                document.getElementById('column').value = category;
-                document.getElementById('query').value = query;
-            }
-
-            if (embed) {
-                document.querySelectorAll(".hideable *, .hideable").forEach(function(element) {
-                    element.style.display = 'none';
-                })
-                document.querySelectorAll(".canBeNewTab").forEach(function(element) {
-                    element.removeAttribute("data-bs-toggle");
-                    element.removeAttribute("data-bs-target");
-                })
-            }
-
             if (showID) {
                 {% if specific_crime %}
                 showInfo({{ specific_crime | tojson | safe }});
@@ -345,5 +330,6 @@
                 {% endif %}
             }
         </script>
+        <script src="{{ url_for('static', filename='script.js')}}"></script>
     </body>
 </html>
