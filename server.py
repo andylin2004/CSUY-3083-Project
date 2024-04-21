@@ -240,7 +240,7 @@ def sign_up():
         else:
             if clearance_id == "10" or clearance_id == "3083":
                 try:
-                    runstatement("CALL add_user(%s, %s);",(username, password))
+                    runstatement("CALL add_user(%s, %s, %s);",(username, password, clearance_id))
                 except Exception as e:
                     flash(str(e), 'error')
             return redirect("/")
