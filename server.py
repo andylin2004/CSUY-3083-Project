@@ -227,12 +227,20 @@ def sentences():
             sql_params[column] = ""
         column = request.args.get("column")
         query = request.args.get("query")
+        show_id = request.args.get("showID")
         sql_params[column] = query
         try:
             dn = runstatement("CALL get_sentences(%s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
             datas = []
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
+            
+            if show_id is not None and show_id.isdigit():
+                specific_sentence = [x for x in datas if x['Sentence_ID'] == int(show_id)]
+                if len(specific_sentence) > 0:
+                    specific_sentence = specific_sentence[0]
+                    return render_template("sentences.html", sentences=datas, specific_sentence=specific_sentence)
+                
             return render_template("sentences.html", sentences=datas)
         except Exception as e:
             flash(str(e), 'error')
