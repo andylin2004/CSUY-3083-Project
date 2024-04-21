@@ -169,7 +169,7 @@ def criminals():
                 dn = runstatement("CALL get_criminals_by_prob_id(%s);", (query,))
             else:
                 dn = runstatement("CALL get_criminals(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
-                
+
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
 
@@ -759,6 +759,20 @@ def edit_sentence():
     else:
         flash('You have no rights','error')     
     return redirect("/sentences")
+
+@app.route('/add-officer-to-crime', methods=['POST'])
+def add_officer_to_crime():
+    # TODO: add officer to a crime
+    print(request.form)
+
+    return redirect("/crimes")
+
+@app.route('/add-crime-to-officers', methods=['POST'])
+def add_crime_to_officers():
+    # TODO: add crime to officers
+    print(request.form)
+
+    return redirect("/officers")
 
 if __name__ == '__main__':
     app.run(port=5002, debug=True)

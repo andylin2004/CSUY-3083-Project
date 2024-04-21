@@ -111,7 +111,16 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <input type="submit" class="btn btn-danger" value="Remove Officers" onclick="javascript: form.action='/delete-officer'; form.method='post'">
+            <div class="action-group">
+                <input type="text" style="display: none;" value="" name="crime_id" id="crime_id">
+                <input type="submit" class="btn btn-primary" value="Add a Crime to Officers" onclick="
+                let c_id = prompt('Type the crime ID that these officers responded to.');
+
+                document.getElementById('crime_id').value = c_id;
+                form.action='/add-crime-to-officers'+window.location.search; form.method='post';
+                ">
+                <input type="submit" class="btn btn-danger" value="Remove Officers" onclick="javascript: form.action='/delete-officer'; form.method='post'">
+            </div>
         </form>
         <!-- add modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
