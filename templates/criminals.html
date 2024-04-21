@@ -413,11 +413,8 @@
                 editForm.querySelector("#vio_offender").checked = (criminal['V_status'] === "Y");
                 editForm.querySelector("#probation_stat").checked = (criminal['P_status'] === "Y");
                 editForm.querySelector("#appealsMadeEmbed").setAttribute("data-storedToLoad", "/appeals?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
-                await sleep(1000);
                 editForm.querySelector("#crimesCommittedEmbed").setAttribute("data-storedToLoad", "/crimes?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
-                await sleep(1000);
                 editForm.querySelector("#sentencesEmbed").setAttribute("data-storedToLoad", "/sentences?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
-                await sleep(1000);
                 editForm.querySelector("#chargeEmbed").setAttribute("data-storedToLoad", "/charges?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
             }
         </script>

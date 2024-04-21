@@ -61,7 +61,3 @@ function pageLoadTasks() {
 }
 
 document.addEventListener("DOMContentLoaded", pageLoadTasks);
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
