@@ -13,7 +13,7 @@
                 <a class="navbar-brand" href="#">Dossier City Login</a>
             </div>
         </nav>
-        {% with errors = get_flashed_messages(category_filter=["error"]) & successes = get_flashed_messages(category_filter=["success"]) %}
+        {% with errors = get_flashed_messages(category_filter=["error"]) %}
                 {% if errors %}
                 {%- for msg in errors %}
                 <li>{{ msg }}</li>
