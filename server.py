@@ -93,21 +93,30 @@ def charges():
 def crimes():
     if "username" in session:
         sql_params = {}
-        param_order = ['cr_id', 'c_id', 'classification', 'date_charge', 'status', 'hearing_date', 'appeal_cutoff_date']
+        param_order = ['crime_id', 'criminal_id', 'classification', 'date_charge', 'status', 'hearing_date', 'appeal_cutoff_date']
         for column in param_order:
             sql_params[column] = ""
         column = request.args.get("column")
         query = request.args.get("query")
+        show_id = request.args.get('showID')
         sql_params[column] = query
         datas = []
         try:
             dn = runstatement("CALL get_crimes(%s,%s,%s,%s,%s,%s,%s);", tuple([sql_params[column] for column in param_order]))
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
+            print(datas)
+            if show_id is not None and show_id.isdigit():
+                specific_crime = [x for x in datas if x['Crime_ID'] == int(show_id)]
+                if len(specific_crime) > 0:
+                    specific_crime = specific_crime[0]
+                    return render_template("crimes.html", crimes=datas, specific_crime=specific_crime)
+            
         except Exception as e:
             flash(str(e), 'error')
-        
+
         return render_template("crimes.html", crimes=datas)
+        
     else:
         return redirect("/")
 
