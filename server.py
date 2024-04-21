@@ -21,6 +21,7 @@ connection = pymysql.connect(host="10.18.222.220",
 
 def runstatement(statement, args=None):
     cursor = connection.cursor()
+    cursor.connection.ping()
     cursor.execute(statement, args)
     results = cursor.fetchall()
     connection.commit()
@@ -54,10 +55,19 @@ def appeals():
             sql_params[column] = ""
         column = request.args.get("column")
         query = request.args.get("query")
+        show_id = request.args.get("showID")
         sql_params[column] = query
         datas = []
         try:
-            dn = runstatement("CALL get_appeals(%s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+            if column == "criminal_id":
+                dn = runstatement("CALL get_appeals_by_criminal_id(%s);", (query,))
+            else:
+                dn = runstatement("CALL get_appeals(%s, %s, %s, %s, %s);", tuple([sql_params[column] for column in param_order]))
+                if show_id is not None and show_id.isdigit():
+                    specific_appeal = [x for x in datas if x['Appeal_ID'] == int(show_id)]
+                    if len(specific_appeal) > 0:
+                        specific_appeal = specific_appeal[0]
+                        return render_template("appeals.html", appeals=datas, specific_appeal=specific_appeal)
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
         except Exception as e:

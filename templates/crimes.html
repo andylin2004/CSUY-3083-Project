@@ -289,8 +289,9 @@
           </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script>
+            var editForm = document.getElementById("editModal");
+
             function showInfo(crime) {
-                var editForm = document.getElementById("editModal");
                 editForm.querySelector("#cr_id").value = crime['Crime_ID'];
                 editForm.querySelector("#c_id").value = crime['Criminal_ID'];
                 editForm.querySelector("#classification").value = crime['Classification'];
@@ -340,7 +341,7 @@
             if (showID) {
                 {% if specific_crime %}
                 showInfo({{ specific_crime | tojson | safe }});
-                bootstrap.Modal.getOrCreateInstance("#editModal").show();
+                bootstrap.Modal.getOrCreateInstance(editForm).show();
                 {% endif %}
             }
         </script>
