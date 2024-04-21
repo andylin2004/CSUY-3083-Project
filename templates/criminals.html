@@ -358,7 +358,7 @@
                             </button>
                             <div class="collapse" id="crimesCommitted">
                                 <div class="card card-body">
-                                  <iframe id="crimesCommittedEmbed" src="" height="500"></iframe>
+                                  <iframe id="crimesCommittedEmbed" height="500"></iframe>
                                 </div>
                             </div>
                             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#appealsMade" aria-expanded="false" aria-controls="appealsMade">
@@ -366,7 +366,7 @@
                             </button>
                             <div class="collapse" id="appealsMade">
                                 <div class="card card-body">
-                                    <iframe id="appealsMadeEmbed" src="" height="500"></iframe>
+                                    <iframe id="appealsMadeEmbed" height="500"></iframe>
                                 </div>
                             </div>
                             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#sentencesInRecord" aria-expanded="false" aria-controls="sentencesInRecord">
@@ -374,7 +374,7 @@
                             </button>
                             <div class="collapse" id="sentencesInRecord">
                                 <div class="card card-body">
-                                    <iframe id="sentencesEmbed" src="" height="500"></iframe>
+                                    <iframe id="sentencesEmbed" height="500"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -404,11 +404,11 @@
                 editForm.querySelector("#phone").value = criminal['Phone'];
                 editForm.querySelector("#vio_offender").checked = (criminal['V_status'] === "Y");
                 editForm.querySelector("#probation_stat").checked = (criminal['P_status'] === "Y");
-                editForm.querySelector("#appealsMadeEmbed").src = "/appeals?embed=true&column=criminal_id&query="+criminal['Criminal_ID'];
+                editForm.querySelector("#appealsMadeEmbed").setAttribute("data-storedToLoad", "/appeals?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
                 await sleep(1000);
-                editForm.querySelector("#crimesCommittedEmbed").src = "/crimes?embed=true&column=criminal_id&query="+criminal['Criminal_ID'];
+                editForm.querySelector("#crimesCommittedEmbed").setAttribute("data-storedToLoad", "/crimes?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
                 await sleep(1000);
-                editForm.querySelector("#sentencesEmbed").src = "/sentences?embed=true&column=criminal_id&query="+criminal['Criminal_ID'];
+                editForm.querySelector("#sentencesEmbed").setAttribute("data-storedToLoad", "/sentences?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
             }
         </script>
         <script src="{{ url_for('static', filename='script.js')}}"></script>
