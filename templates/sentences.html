@@ -42,6 +42,17 @@
             </div>
         </div>
         </nav>
+        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+        {% if success %}
+        <div class="alert alert-success" role="alert">
+            A simple success alert—check it out!
+        </div>
+        {% elif errors %}
+        <div class="alert alert-danger" role="alert">
+            A simple failure alert—check it out!
+        </div>
+        {% endif %}
+        {% endwith %}
         <div class="row justify-content-end">
             <h1 class="col">Sentences</h1>
             <div class="col">
