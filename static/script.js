@@ -1,8 +1,11 @@
+var editing = false;
+
 function editFieldsIn(id_name) {
     var baseID = "#" + id_name;
     document.querySelectorAll(baseID + " input, " + baseID + " select").forEach(function(element) {
         element.removeAttribute("disabled");
     });
+    editing = true;
 }
 
 function endEditFieldsIn(id_name) {
@@ -10,6 +13,7 @@ function endEditFieldsIn(id_name) {
     document.querySelectorAll(baseID + " input, " + baseID + " select").forEach(function(element) {
         element.setAttribute("disabled", true);
     });
+    editing = false;
 }
 
 document.addEventListener("DOMContentLoaded", event => {
