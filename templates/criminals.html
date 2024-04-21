@@ -377,8 +377,8 @@
             var editForm = document.getElementById("editModal");
 
             editForm.addEventListener('hidden.bs.modal', event => {
-                bootstrap.Collapse.getInstance(editForm.querySelector("#appealsMade")).hide();
-                bootstrap.Collapse.getInstance(editForm.querySelector("#crimesCommitted")).hide();
+                bootstrap.Collapse.getOrCreateInstance(editForm.querySelector("#appealsMade")).hide();
+                bootstrap.Collapse.getOrCreateInstance(editForm.querySelector("#crimesCommitted")).hide();
             });
 
             function showInfo(criminal) {

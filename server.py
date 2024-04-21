@@ -436,7 +436,7 @@ def delete_crimes():
             flash('Successfully deleted a crime!', 'success')
         except Exception as e:
             flash(str(e), 'error')
-    return redirect("/crimes")
+        return redirect("/crimes?"+bytes.decode(request.query_string))
 
 @app.route('/delete-criminals', methods=['POST'])
 def delete_criminal():
@@ -480,7 +480,7 @@ def delete_appeal():
             flash('Successfully deleted an appeal!', 'success')
         except Exception as e:
             flash(str(e), 'error')
-    return redirect("/appeals")
+    return redirect("/appeals?"+bytes.decode(request.query_string))
 
 @app.route('/delete-charges', methods=['POST'])
 def delete_charges():

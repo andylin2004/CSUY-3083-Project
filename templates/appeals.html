@@ -105,7 +105,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <input type="submit" class="btn btn-danger" value="Delete Appeals" onclick="javascript: form.action='/delete-appeals'; form.method='post'">
+            <input type="submit" class="btn btn-danger" value="Delete Appeals" onclick="javascript: form.action='/delete-appeals'+window.location.search; form.method='post'">
         </form>
         <!-- add modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
