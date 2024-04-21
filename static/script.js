@@ -42,18 +42,18 @@ function pageLoadTasks() {
 
     function hideDisclosures() {
         editForm.querySelectorAll(".external-record-group .collapse").forEach(function (element) {
-            bootstrap.Collapse.getOrCreateInstance(element).hide();
+            element.className = "collapse";
         });
     }
     
     endEditFieldsIn('main-group');
 
     editForm.querySelectorAll(".external-record-group .collapse").forEach(function (element) {
-        element.addEventListener('show.bs.collapse', refresh(element));
+        element.addEventListener('show.bs.collapse', refresh);
         
-        function refresh(element) {
-            let iframe = element.querySelector("iframe")
-            iframe.src = iframe.dataset.storedToLoad;
+        function refresh() {
+            let iframe = this.querySelector("iframe");
+            iframe.src = iframe.dataset.storedtoload;
         }
     });
 
