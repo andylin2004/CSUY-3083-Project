@@ -369,6 +369,14 @@
                                     <iframe id="appealsMadeEmbed" height="500"></iframe>
                                 </div>
                             </div>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#crimeCharges" aria-expanded="false" aria-controls="crimeCharges">
+                                Crime Charges
+                            </button>
+                            <div class="collapse" id="crimeCharges">
+                                <div class="card card-body">
+                                    <iframe id="chargeEmbed" height="500"></iframe>
+                                </div>
+                            </div>
                             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#sentencesInRecord" aria-expanded="false" aria-controls="sentencesInRecord">
                             Sentences in Record
                             </button>
@@ -409,6 +417,8 @@
                 editForm.querySelector("#crimesCommittedEmbed").setAttribute("data-storedToLoad", "/crimes?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
                 await sleep(1000);
                 editForm.querySelector("#sentencesEmbed").setAttribute("data-storedToLoad", "/sentences?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
+                await sleep(1000);
+                editForm.querySelector("#chargeEmbed").setAttribute("data-storedToLoad", "/charges?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
             }
         </script>
         <script src="{{ url_for('static', filename='script.js')}}"></script>
