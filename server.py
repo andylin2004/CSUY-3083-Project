@@ -332,112 +332,128 @@ def add_criminal():
 
 @app.route('/add-crime', methods=['POST'])
 def add_crime():
-    cr_id = request.form.get("cr_id")
-    c_id = request.form.get("c_id")
-    classification = request.form.get("classification")
-    date_charged = request.form.get("date_charged")
-    status = request.form.get("status")
-    hearing_date = request.form.get("hearing_date")
-    cutoff_date = request.form.get("cutoff_date")
+    if check_privilege():
+        cr_id = request.form.get("cr_id")
+        c_id = request.form.get("c_id")
+        classification = request.form.get("classification")
+        date_charged = request.form.get("date_charged")
+        status = request.form.get("status")
+        hearing_date = request.form.get("hearing_date")
+        cutoff_date = request.form.get("cutoff_date")
 
-    try:
-        runstatement("CALL add_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
-        flash('Successfully added a new crime!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
-
+        try:
+            runstatement("CALL add_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
+            flash('Successfully added a new crime!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
     return redirect("/crimes")
 
 @app.route('/add-probation-officer', methods=['POST'])
 def add_probation_officer():
-    prob_id = request.form.get("prob_id")
-    f_name = request.form.get("f_name")
-    l_name = request.form.get("l_name")
-    street = request.form.get("street")
-    city = request.form.get("city")
-    state = request.form.get("state")
-    zip = request.form.get("zip")
-    phone = request.form.get("phone")
-    email = request.form.get("email")
-    status = request.form.get("status")
+    if check_privilege():   
+        prob_id = request.form.get("prob_id")
+        f_name = request.form.get("f_name")
+        l_name = request.form.get("l_name")
+        street = request.form.get("street")
+        city = request.form.get("city")
+        state = request.form.get("state")
+        zip = request.form.get("zip")
+        phone = request.form.get("phone")
+        email = request.form.get("email")
+        status = request.form.get("status")
 
-    try:
-        runstatement("CALL add_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
-        flash('Successfully added a new probation officer!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
-
+        try:
+            runstatement("CALL add_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
+            flash('Successfully added a new probation officer!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
     return redirect("/probation_officers")
 
 @app.route('/add-officer', methods=['POST'])
 def add_officer():
-    officer_id = request.form.get("officer_id")
-    f_name = request.form.get("f_name")
-    l_name = request.form.get("l_name")
-    precinct = request.form.get("precinct")
-    phone = request.form.get("phone")
-    badge = request.form.get("badge")
-    status = request.form.get("status")
+    if check_privilege():
+        officer_id = request.form.get("officer_id")
+        f_name = request.form.get("f_name")
+        l_name = request.form.get("l_name")
+        precinct = request.form.get("precinct")
+        phone = request.form.get("phone")
+        badge = request.form.get("badge")
+        status = request.form.get("status")
 
-    try:
-        runstatement("CALL add_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
-        flash('Successfully added a new officer!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
+        try:
+            runstatement("CALL add_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
+            flash('Successfully added a new officer!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
 
     return redirect("/officers")
 
 @app.route('/add-appeal', methods=['POST'])
 def add_appeal():
-    appeal_id = request.form.get("appeal_id")
-    crime_id = request.form.get("crime_id")
-    file_date = request.form.get("file_date")
-    hearing_date = request.form.get("hearing_date")
-    status = request.form.get("status")
+    if check_privilege():
+        appeal_id = request.form.get("appeal_id")
+        crime_id = request.form.get("crime_id")
+        file_date = request.form.get("file_date")
+        hearing_date = request.form.get("hearing_date")
+        status = request.form.get("status")
 
-    try:
-        runstatement("CALL add_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
-        flash('Successfully added a new appeal!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
+        try:
+            runstatement("CALL add_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
+            flash('Successfully added a new appeal!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
 
     return redirect("/appeals")
 
 @app.route('/add-charge', methods=['POST'])
 def add_charge():
-    charge_id = request.form.get("charge_id")
-    c_id = request.form.get("c_id")
-    crime_code = request.form.get("crime_code")
-    status = request.form.get("status")
-    fine = request.form.get("fine")
-    court_fee = request.form.get("court_fee")
-    amount_paid = request.form.get("amount_paid")
-    due_date = request.form.get("due_date")
+    if check_privilege():
+        charge_id = request.form.get("charge_id")
+        c_id = request.form.get("c_id")
+        crime_code = request.form.get("crime_code")
+        status = request.form.get("status")
+        fine = request.form.get("fine")
+        court_fee = request.form.get("court_fee")
+        amount_paid = request.form.get("amount_paid")
+        due_date = request.form.get("due_date")
 
-    try:
-        runstatement("CALL add_Crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
-        flash('Successfully added a new charge!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
+        try:
+            runstatement("CALL add_Crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
+            flash('Successfully added a new charge!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
+
 
     return redirect("/charges")
     
 @app.route('/add-sentence', methods=['POST'])
 def add_sentence():
-    s_id = request.form.get("s_id")
-    c_id = request.form.get("c_id")
-    p_id = request.form.get("p_id")
-    sentence_type = request.form.get("sentence_type")
-    start_date = request.form.get("start_date")
-    end_date = request.form.get("end_date")
-    violations = request.form.get("violations")
+    if check_privilege():
+        s_id = request.form.get("s_id")
+        c_id = request.form.get("c_id")
+        p_id = request.form.get("p_id")
+        sentence_type = request.form.get("sentence_type")
+        start_date = request.form.get("start_date")
+        end_date = request.form.get("end_date")
+        violations = request.form.get("violations")
 
-    try:
-        runstatement("CALL add_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
-        flash('Successfully added a new sentence!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
-
+        try:
+            runstatement("CALL add_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
+            flash('Successfully added a new sentence!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
     return redirect("/sentences")
 
 @app.route('/delete-crimes', methods=['POST'])
@@ -452,217 +468,254 @@ def delete_crimes():
                 flash(str(e), 'error')
             return redirect("/crimes?"+bytes.decode(request.query_string))
     else:
-        flash('you have no rights','error')
-        return redirect("/crimes")
+        flash('You have no rights','error')
+    return redirect("/crimes")
 
 @app.route('/delete-criminals', methods=['POST'])
 def delete_criminal():
-    for (i,_) in request.form.items():
-        print((int(i.split("check")[1]),))
-        try:
-            runstatement("CALL deleteCriminal(%s);", (int(i.split("check")[1]),))
-            flash('Successfully deleted a criminal!', 'success')
-        except Exception as e:
-            flash(str(e), 'error')
+    if (check_privilege()):
+        for (i,_) in request.form.items():
+            print((int(i.split("check")[1]),))
+            try:
+                runstatement("CALL deleteCriminal(%s);", (int(i.split("check")[1]),))
+                flash('Successfully deleted a criminal!', 'success')
+            except Exception as e:
+                flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')        
     return redirect("/criminals")
 
 @app.route('/delete-probation-officer', methods=['POST'])
 def delete_prob_officer():
-    for (i,_) in request.form.items():
-        print((int(i.split("check")[1]),))
-        try:
-            runstatement("CALL deleteProb(%s);", (int(i.split("check")[1]),))
-            flash('Successfully deleted a probation officer!', 'success')
-        except Exception as e:
-            flash(str(e), 'error')
+    if (check_privilege()):
+        for (i,_) in request.form.items():
+            print((int(i.split("check")[1]),))
+            try:
+                runstatement("CALL deleteProb(%s);", (int(i.split("check")[1]),))
+                flash('Successfully deleted a probation officer!', 'success')
+            except Exception as e:
+                flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
     return redirect("/probation_officers")
 
 @app.route('/delete-officer', methods=['POST'])
 def delete_officer():
-    thing = session["username"]
-    for (i,_) in request.form.items():
-        print((int(i.split("check")[1]),))
-        try:
-            runstatement("CALL deleteOfficer(%s);", (int(i.split("check")[1]),))
-            flash('Successfully deleted an officer!', 'success')
-        except Exception as e:
-            flash(str(e), 'error')
+    if (check_privilege()):
+
+        for (i,_) in request.form.items():
+            print((int(i.split("check")[1]),))
+            try:
+                runstatement("CALL deleteOfficer(%s);", (int(i.split("check")[1]),))
+                flash('Successfully deleted an officer!', 'success')
+            except Exception as e:
+                flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
     return redirect("/officers")
 
 @app.route('/delete-appeals', methods=['POST'])
 def delete_appeal():
-    for (i,_) in request.form.items():
-        print((int(i.split("check")[1]),))
-        try:
-            runstatement("CALL deleteAppeals(%s);", (int(i.split("check")[1]),))
-            flash('Successfully deleted an appeal!', 'success')
-        except Exception as e:
-            flash(str(e), 'error')
+    if (check_privilege()):
+        for (i,_) in request.form.items():
+            print((int(i.split("check")[1]),))
+            try:
+                runstatement("CALL deleteAppeals(%s);", (int(i.split("check")[1]),))
+                flash('Successfully deleted an appeal!', 'success')
+            except Exception as e:
+                flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
     return redirect("/appeals?"+bytes.decode(request.query_string))
 
 @app.route('/delete-charges', methods=['POST'])
 def delete_charges():
-    for (i,_) in request.form.items():
-        print((int(i.split("check")[1]),))
-        try:
-            runstatement("CALL deleteCrimeCharges(%s);", (int(i.split("check")[1]),))
-            flash('Successfully deleted a charge!', 'success')
-        except Exception as e:
-            flash(str(e), 'error')
+    if (check_privilege()):
+        for (i,_) in request.form.items():
+            print((int(i.split("check")[1]),))
+            try:
+                runstatement("CALL deleteCrimeCharges(%s);", (int(i.split("check")[1]),))
+                flash('Successfully deleted a charge!', 'success')
+            except Exception as e:
+                flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
     return redirect("/charges")
 
 @app.route('/delete-sentences', methods=['POST'])
 def delete_sentences():
-    for (i,_) in request.form.items():
-        print((int(i.split("check")[1]),))
-        try:
-            runstatement("CALL deleteSentences(%s);", (int(i.split("check")[1]),))
-            flash('Successfully deleted a sentence!', 'success')
-        except Exception as e:
-            flash(str(e), 'error')
+    if (check_privilege()):
+        for (i,_) in request.form.items():
+            print((int(i.split("check")[1]),))
+            try:
+                runstatement("CALL deleteSentences(%s);", (int(i.split("check")[1]),))
+                flash('Successfully deleted a sentence!', 'success')
+            except Exception as e:
+                flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
     return redirect("/sentences")
 
 @app.route("/edit-criminal", methods=['POST'])
 def edit_criminal():
-    c_id = request.form.get("c_id")
-    f_name = request.form.get("f_name")
-    l_name = request.form.get("l_name")
-    street = request.form.get("street")
-    city = request.form.get("city")
-    state = request.form.get("state")
-    zip = request.form.get("zip")
-    phone = request.form.get("phone")
-    vio_offender = request.form.get("vio_offender")
-    probation_stat = request.form.get("probation_stat")
+    if (check_privilege()):
+        c_id = request.form.get("c_id")
+        f_name = request.form.get("f_name")
+        l_name = request.form.get("l_name")
+        street = request.form.get("street")
+        city = request.form.get("city")
+        state = request.form.get("state")
+        zip = request.form.get("zip")
+        phone = request.form.get("phone")
+        vio_offender = request.form.get("vio_offender")
+        probation_stat = request.form.get("probation_stat")
 
-    if vio_offender != None:
-        vio_offender = 'Y'
+        if vio_offender != None:
+            vio_offender = 'Y'
+        else:
+            vio_offender = 'N'
+
+        if probation_stat != None:
+            probation_stat = 'Y'
+        else:
+            probation_stat = 'N'
+
+        try:
+            runstatement("CALL update_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
+            flash('Successfully deleted a criminal entry!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
     else:
-        vio_offender = 'N'
-
-    if probation_stat != None:
-        probation_stat = 'Y'
-    else:
-        probation_stat = 'N'
-
-    try:
-        runstatement("CALL update_criminal(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (c_id, l_name, f_name, street, city, state, zip, phone, vio_offender, probation_stat))
-        flash('Successfully deleted a criminal entry!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
-
+        flash('You have no rights','error')     
     return redirect("/criminals")
 
 @app.route('/edit-crime', methods=['POST'])
 def edit_crime():
-    cr_id = request.form.get("cr_id")
-    c_id = request.form.get("c_id")
-    classification = request.form.get("classification")
-    date_charged = request.form.get("date_charged")
-    status = request.form.get("status")
-    hearing_date = request.form.get("hearing_date")
-    cutoff_date = request.form.get("cutoff_date")
+    if (check_privilege()):
+        cr_id = request.form.get("cr_id")
+        c_id = request.form.get("c_id")
+        classification = request.form.get("classification")
+        date_charged = request.form.get("date_charged")
+        status = request.form.get("status")
+        hearing_date = request.form.get("hearing_date")
+        cutoff_date = request.form.get("cutoff_date")
 
-    try:
-        runstatement("CALL update_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
-        flash('Successfully edited a crime entry!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
+        try:
+            runstatement("CALL update_crime(%s, %s, %s, %s, %s, %s, %s);", (cr_id, c_id, classification, date_charged, status, hearing_date, cutoff_date))
+            flash('Successfully edited a crime entry!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
                  
     return redirect("/crimes")
 
 @app.route('/edit-probation-officer', methods=['POST'])
 def edit_prob_officer():
-    prob_id = request.form.get("prob_id")
-    f_name = request.form.get("f_name")
-    l_name = request.form.get("l_name")
-    street = request.form.get("street")
-    city = request.form.get("city")
-    state = request.form.get("state")
-    zip = request.form.get("zip")
-    phone = request.form.get("phone")
-    email = request.form.get("email")
-    status = request.form.get("status")
+    if (check_privilege()):
+        prob_id = request.form.get("prob_id")
+        f_name = request.form.get("f_name")
+        l_name = request.form.get("l_name")
+        street = request.form.get("street")
+        city = request.form.get("city")
+        state = request.form.get("state")
+        zip = request.form.get("zip")
+        phone = request.form.get("phone")
+        email = request.form.get("email")
+        status = request.form.get("status")
 
-    try:
-        runstatement("CALL update_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
-        flash('Successfully edited a probation officer entry!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
+        try:
+            runstatement("CALL update_prob_officer(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", (prob_id, l_name, f_name, street, city, state, zip, phone, email, status))
+            flash('Successfully edited a probation officer entry!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
                  
+    else:
+        flash('You have no rights','error')     
     return redirect("/probation_officers")
 
 @app.route('/edit-officer', methods=['POST'])
 def edit_officer():
-    officer_id = request.form.get("officer_id")
-    f_name = request.form.get("f_name")
-    l_name = request.form.get("l_name")
-    precinct = request.form.get("precinct")
-    phone = request.form.get("phone")
-    badge = request.form.get("badge")
-    status = request.form.get("status")
+    if (check_privilege()):
+        officer_id = request.form.get("officer_id")
+        f_name = request.form.get("f_name")
+        l_name = request.form.get("l_name")
+        precinct = request.form.get("precinct")
+        phone = request.form.get("phone")
+        badge = request.form.get("badge")
+        status = request.form.get("status")
 
-    print(officer_id)
+        print(officer_id)
 
-    try:
-        runstatement("CALL update_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
-        flash('Successfully edited an officer entry!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
+        try:
+            runstatement("CALL update_officer(%s, %s, %s, %s, %s, %s, %s);", (officer_id, l_name, f_name, precinct, badge, phone, status))
+            flash('Successfully edited an officer entry!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
 
     return redirect("/officers")
 
 @app.route('/edit-appeal', methods=['POST'])
 def edit_appeal():
-    appeal_id = request.form.get("appeal_id")
-    crime_id = request.form.get("crime_id")
-    file_date = request.form.get("file_date")
-    hearing_date = request.form.get("hearing_date")
-    status = request.form.get("status")
+    if (check_privilege()):
+        appeal_id = request.form.get("appeal_id")
+        crime_id = request.form.get("crime_id")
+        file_date = request.form.get("file_date")
+        hearing_date = request.form.get("hearing_date")
+        status = request.form.get("status")
 
-    try:
-        runstatement("CALL update_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
-        flash('Successfully edited an appeal entry!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
+        try:
+            runstatement("CALL update_appeal(%s, %s, %s, %s, %s);", (appeal_id, crime_id, file_date, hearing_date, status))
+            flash('Successfully edited an appeal entry!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
 
     return redirect("/appeals")
 
 @app.route('/edit-charge', methods=['POST'])
 def edit_charge():
-    charge_id = request.form.get("charge_id")
-    c_id = request.form.get("c_id")
-    crime_code = request.form.get("crime_code")
-    status = request.form.get("status")
-    fine = request.form.get("fine")
-    court_fee = request.form.get("court_fee")
-    amount_paid = request.form.get("amount_paid")
-    due_date = request.form.get("due_date")
+    if (check_privilege()):
+        charge_id = request.form.get("charge_id")
+        c_id = request.form.get("c_id")
+        crime_code = request.form.get("crime_code")
+        status = request.form.get("status")
+        fine = request.form.get("fine")
+        court_fee = request.form.get("court_fee")
+        amount_paid = request.form.get("amount_paid")
+        due_date = request.form.get("due_date")
 
-    try:
-        runstatement("CALL update_crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
-        flash('Successfully edited a charge entry!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
+        try:
+            runstatement("CALL update_crime_charge(%s, %s, %s, %s, %s, %s, %s, %s);", (charge_id, c_id, crime_code, status, fine, court_fee, amount_paid, due_date))
+            flash('Successfully edited a charge entry!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
 
     return redirect("/charges")
 
 @app.route('/edit-sentence', methods=['POST'])
 def edit_sentence():
-    s_id = request.form.get("s_id")
-    c_id = request.form.get("c_id")
-    p_id = request.form.get("p_id")
-    sentence_type = request.form.get("sentence_type")
-    start_date = request.form.get("start_date")
-    end_date = request.form.get("end_date")
-    violations = request.form.get("violations")
+    if (check_privilege()):
+        s_id = request.form.get("s_id")
+        c_id = request.form.get("c_id")
+        p_id = request.form.get("p_id")
+        sentence_type = request.form.get("sentence_type")
+        start_date = request.form.get("start_date")
+        end_date = request.form.get("end_date")
+        violations = request.form.get("violations")
 
-    try:
-        runstatement("CALL update_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
-        flash('Successfully edited a sentence entry!', 'success')
-    except Exception as e:
-        flash(str(e), 'error')
-
+        try:
+            runstatement("CALL update_sentence(%s, %s, %s, %s, %s, %s, %s);", (s_id, c_id, sentence_type, p_id, start_date, end_date, violations))
+            flash('Successfully edited a sentence entry!', 'success')
+        except Exception as e:
+            flash(str(e), 'error')
+    else:
+        flash('You have no rights','error')     
     return redirect("/sentences")
 
 if __name__ == '__main__':
