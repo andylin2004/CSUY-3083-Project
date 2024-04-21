@@ -264,9 +264,10 @@ def sign_up():
             if clearance_id == "10" or clearance_id == "3083":
                 try:
                     runstatement("CALL add_user_procedure(%s, %s, %s);",(username, password, clearance_id))
-
                 except Exception as e:
                     flash(str(e), 'error')
+            else:
+                flash("Not valid clearance_ID", 'error')
             return redirect("/")
 
 @app.route("/login", methods=['POST'])
