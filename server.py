@@ -7,14 +7,15 @@ from flask_ngrok import run_with_ngrok
 app = Flask(__name__)
 
 #run_with_ngrok(app)
-app.config["MYSQL_HOST"] = "192.168.0.23"
-# app.config["MYSQL_HOST"] = "localhost"
+# app.config["MYSQL_HOST"] = "192.168.0.23"
+app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "criminals"
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-connection = pymysql.connect(host="192.168.0.23",
+connection = pymysql.connect(host="localhost",
+# connection = pymysql.connect(host="192.168.0.23",
                              user="root",
                              password="",
                              database="criminals")
@@ -138,6 +139,8 @@ def crimes():
             dn = runstatement("CALL get_crimes(%s,%s,%s,%s,%s,%s,%s);", tuple([sql_params[column] for column in param_order]))
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
+
+            print(datas)
             if show_id is not None and show_id.isdigit():
                 specific_crime = [x for x in datas if x['Crime_ID'] == int(show_id)]
                 if len(specific_crime) > 0:
@@ -541,8 +544,11 @@ def delete_crimes():
 
 @app.route('/delete-aliases', methods=['POST'])
 def delete_aliases():
+    print(request.form)
     if (check_privilege()):
         for (i,_) in request.form.items():
+            if i[:-1] != "check":
+                continue
             print((int(i.split("check")[1]),))
             try:
                 runstatement("CALL deleteAlias(%s);", (int(i.split("check")[1]),))
