@@ -776,9 +776,9 @@ def add_crime_to_officers():
     # TODO: add crime to officers
     print(request.form)
     for (i,_) in request.form.items():
-        if(i != "officer_id"):
+        if(i != "crime_id"):
             print(i)
-            runstatement("CALL add_officer_to_crime(%s,%s)", (i[5:], request.form.get("officer_id")))
+            runstatement("CALL add_officer_to_crime(%s,%s)", (request.form.get("crime_id"), i[5:]))
 
     return redirect("/officers")
 
