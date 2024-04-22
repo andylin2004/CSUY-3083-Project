@@ -91,6 +91,7 @@
                         <th scope="col">Crime ID</th>
                         <th scope="col">Criminal ID</th>
                         <th scope="col">Classification</th>
+                        <th scope="col">Responding Officer ID</th>
                         <th scope="col">Date Charged</th>
                         <th scope="col">Status</th>
                         <th scope="col">Hearing Date</th>
@@ -104,6 +105,7 @@
                         <th scope="row"><a href="/crimes?showID={{ crime['Crime_ID'] }}" target="_blank" data-bs-toggle="modal" data-bs-target="#editModal" onclick='javascript: showInfo({{ crime|tojson|safe }});' class="canBeNewTab">{{ crime['Crime_ID'] }}</a></th>
                         <td>{{ crime['Criminal_ID'] }}</td>
                         <td>{{ crime['Classification'] }}</td>
+                        <td>{{ crime['Officer_id'] }}</td>
                         <td>{{ crime['Date_charged'] }}</td>
                         <td>{{ crime['Status'] }}</td>
                         <td>{{ crime['Hearing_date'] }}</td>
@@ -118,7 +120,7 @@
                 let o_id = prompt('Type the officer ID that responded to the crime.');
 
                 document.getElementById('officer_id').value = o_id;
-                form.action='/add-officer-to-crime'+window.location.search; form.method='post';
+                form.action='/add-officer-to-crime'; form.method='post';
                 ">
                 <input type="submit" class="btn btn-danger" value="Delete Selected Crimes" onclick="javascript: form.action='/delete-crimes'+window.location.search; form.method='post'">
             </div>
@@ -243,6 +245,14 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-2 col-form-label">
+                                <label for="o_id">Responding Officer ID</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" name="o_id" id="o_id" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
                                 <label for="classification">Classification</label>
                             </div>
                             <div class="col-sm-10">
@@ -320,6 +330,7 @@
             function showInfo(crime) {
                 editForm.querySelector("#cr_id").value = crime['Crime_ID'];
                 editForm.querySelector("#c_id").value = crime['Criminal_ID'];
+                editForm.querySelector("#o_id").value = crime['Officer_id'];
                 editForm.querySelector("#classification").value = crime['Classification'];
                 editForm.querySelector("#date_charged").valueAsDate = new Date(crime['Date_charged']);
                 editForm.querySelector("#status").value = crime['Status'];

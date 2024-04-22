@@ -7,14 +7,14 @@ from flask_ngrok import run_with_ngrok
 app = Flask(__name__)
 
 #run_with_ngrok(app)
-app.config["MYSQL_HOST"] = "10.18.222.220"
+app.config["MYSQL_HOST"] = "192.168.0.23"
 # app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "criminals"
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-connection = pymysql.connect(host="10.18.222.220",
+connection = pymysql.connect(host="192.168.0.23",
                              user="root",
                              password="",
                              database="criminals")
@@ -172,6 +172,14 @@ def criminals():
 
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
+                alias_list = []
+
+                aliases = runstatement("CALL get_alias_for_criminal_id(%s);", (int(j.get("Criminal_ID")),))
+
+                for _,k in aliases.iterrows():
+                    alias_list.append(k.to_dict())
+
+                datas[-1]["Aliases"] = alias_list
 
             if show_id is not None and show_id.isdigit():
                 specific_criminal = [x for x in datas if x['Criminal_ID'] == int(show_id)]
@@ -372,6 +380,24 @@ def add_criminal():
 
     return redirect("/criminals")
 
+@app.route('/add-alias', methods=['POST'])
+def add_alias():
+    if check_privilege():
+        alias = request.form.get("alias")
+        a_id = request.form.get("a_id")
+        c_id = request.form.get("alias_c_id")
+        if len(alias) > 0:
+            try:
+                runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (a_id, c_id, alias))
+                flash('Successfully added a new criminal!', 'success')
+
+            except Exception as e:
+                flash(str(e), 'error')
+    else:
+        flash('you have no rights','error')
+
+    return redirect("/criminals")
+
 @app.route('/add-crime', methods=['POST'])
 def add_crime():
     if check_privilege():
@@ -512,6 +538,21 @@ def delete_crimes():
     else:
         flash('You have no rights','error')
     return redirect("/crimes")
+
+@app.route('/delete-aliases', methods=['POST'])
+def delete_aliases():
+    if (check_privilege()):
+        for (i,_) in request.form.items():
+            print((int(i.split("check")[1]),))
+            try:
+                runstatement("CALL deleteAlias(%s);", (int(i.split("check")[1]),))
+                flash('Successfully deleted an alias!', 'success')
+            except Exception as e:
+                flash(str(e), 'error')
+            return redirect("/alias")
+    else:
+        flash('You have no rights','error')
+    return redirect("/criminals")
 
 @app.route('/delete-criminals', methods=['POST'])
 def delete_criminal():
@@ -764,6 +805,10 @@ def edit_sentence():
 def add_officer_to_crime():
     # TODO: add officer to a crime
     print(request.form)
+    for (i,_) in request.form.items():
+        if(i != "officer_id"):
+            print(i)
+            runstatement("CALL add_officer_to_crime(%s,%s)", (i[5:], request.form.get("officer_id")))
 
     return redirect("/crimes")
 
@@ -771,6 +816,10 @@ def add_officer_to_crime():
 def add_crime_to_officers():
     # TODO: add crime to officers
     print(request.form)
+    for (i,_) in request.form.items():
+        if(i != "crime_id"):
+            print(i)
+            runstatement("CALL add_officer_to_crime(%s,%s)", (request.form.get("crime_id"), i[5:]))
 
     return redirect("/officers")
 

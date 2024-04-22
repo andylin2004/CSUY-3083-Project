@@ -117,7 +117,7 @@
                 let c_id = prompt('Type the crime ID that these officers responded to.');
 
                 document.getElementById('crime_id').value = c_id;
-                form.action='/add-crime-to-officers'+window.location.search; form.method='post';
+                form.action='/add-crime-to-officers'; form.method='post';
                 ">
                 <input type="submit" class="btn btn-danger" value="Remove Officers" onclick="javascript: form.action='/delete-officer'; form.method='post'">
             </div>
