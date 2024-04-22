@@ -353,7 +353,18 @@
                             </button>
                             <div class="collapse" id="aliasList">
                                 <div class="card card-body">
-                                  <iframe id="aliasListEmbed" height="500"></iframe>
+                                    <form method="post">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Alias</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="alias_list_body">
+    
+                                            </tbody>
+                                        </table>
+                                    </form>
                                 </div>
                             </div>
                             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#crimesCommitted" aria-expanded="false" aria-controls="crimesCommitted">
@@ -456,6 +467,17 @@
                 editForm.querySelector("#crimesCommittedEmbed").setAttribute("data-storedToLoad", "/crimes?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
                 editForm.querySelector("#sentencesEmbed").setAttribute("data-storedToLoad", "/sentences?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
                 editForm.querySelector("#chargeEmbed").setAttribute("data-storedToLoad", "/charges?embed=true&column=criminal_id&query="+criminal['Criminal_ID']);
+
+                var list_body = editForm.querySelector("#alias_list_body");
+                list_body.textContent = '';
+
+                for (const alias of criminal['Aliases']) {
+                    var row = document.createElement('tr');
+                    var col = document.createElement('td');
+                    row.appendChild(col);
+                    col.innerText = alias;
+                    list_body.append(row);
+                }
             }
 
             var queryStr = window.location.search;
