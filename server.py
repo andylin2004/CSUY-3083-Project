@@ -172,6 +172,14 @@ def criminals():
 
             for _,j in dn.iterrows():
                 datas.append(j.to_dict())
+                alias_list = []
+
+                aliases = runstatement("CALL get_alias_for_criminal_id(%s);", (int(j.get("Criminal_ID")),))
+
+                for _,k in aliases.iterrows():
+                    alias_list.append(k.get("alias"))
+
+                datas[-1]["Aliases"] = alias_list
 
             if show_id is not None and show_id.isdigit():
                 specific_criminal = [x for x in datas if x['Criminal_ID'] == int(show_id)]
