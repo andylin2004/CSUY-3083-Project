@@ -95,7 +95,7 @@
                         <th scope="col">C_ID</th>
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
-                        <th scope="col">Alias</th>
+                        <!-- <th scope="col">Alias</th> -->
                         <th scope="col">Street</th>
                         <th scope="col">City</th>
                         <th scope="col">State</th>
@@ -112,7 +112,7 @@
                         <th scope="row"><a href="" data-bs-toggle="modal" data-bs-target="#editModal" onclick='javascript: showInfo({{ criminal|tojson|safe }});'>{{ criminal['Criminal_ID'] }}</a></th>
                         <td>{{ criminal['First'] }}</td>
                         <td>{{ criminal['Last'] }}</td>
-                        <td>{{ criminal['alias'] }}</td>
+                        <!-- <td>{{ criminal['alias'] }}</td> -->
                         <td>{{ criminal['Street'] }}</td>
                         <td>{{ criminal['City'] }}</td>
                         <td>{{ criminal['State'] }}</td>
@@ -278,7 +278,7 @@
                                 <input type="text" name="l_name" id="l_name" class="form-control">
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row mb-3" style="display: none;">
                             <div class="col-sm-2 col-form-label">
                                 <label for="alias">Alias</label>
                             </div>
@@ -348,6 +348,14 @@
                         </div>
                         
                         <div class="external-record-group">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#aliasList" aria-expanded="false" aria-controls="aliasList">
+                                Show Aliases
+                            </button>
+                            <div class="collapse" id="aliasList">
+                                <div class="card card-body">
+                                  <iframe id="aliasListEmbed" height="500"></iframe>
+                                </div>
+                            </div>
                             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#crimesCommitted" aria-expanded="false" aria-controls="crimesCommitted">
                                 Crimes Committed
                             </button>
