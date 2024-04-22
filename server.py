@@ -7,14 +7,14 @@ from flask_ngrok import run_with_ngrok
 app = Flask(__name__)
 
 #run_with_ngrok(app)
-app.config["MYSQL_HOST"] = "10.18.222.220"
+app.config["MYSQL_HOST"] = "192.168.0.23"
 # app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
 app.config["MYSQL_DB"] = "criminals"
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-connection = pymysql.connect(host="10.18.222.220",
+connection = pymysql.connect(host="192.168.0.23",
                              user="root",
                              password="",
                              database="criminals")
@@ -772,6 +772,10 @@ def edit_sentence():
 def add_officer_to_crime():
     # TODO: add officer to a crime
     print(request.form)
+    for (i,_) in request.form.items():
+        if(i != "officer_id"):
+            print(i)
+            runstatement("CALL add_officer_to_crime(%s,%s)", (i[5:], request.form.get("officer_id")))
 
     return redirect("/crimes")
 
@@ -779,6 +783,10 @@ def add_officer_to_crime():
 def add_crime_to_officers():
     # TODO: add crime to officers
     print(request.form)
+    for (i,_) in request.form.items():
+        if(i != "crime_id"):
+            print(i)
+            runstatement("CALL add_officer_to_crime(%s,%s)", (request.form.get("crime_id"), i[5:]))
 
     return redirect("/officers")
 
