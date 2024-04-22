@@ -177,7 +177,7 @@ def criminals():
                 aliases = runstatement("CALL get_alias_for_criminal_id(%s);", (int(j.get("Criminal_ID")),))
 
                 for _,k in aliases.iterrows():
-                    alias_list.append(k.get("alias"))
+                    alias_list.append(k.to_dict())
 
                 datas[-1]["Aliases"] = alias_list
 
@@ -380,6 +380,24 @@ def add_criminal():
 
     return redirect("/criminals")
 
+@app.route('/add-alias', methods=['POST'])
+def add_alias():
+    if check_privilege():
+        alias = request.form.get("alias")
+        a_id = request.form.get("a_id")
+        c_id = request.form.get("alias_c_id")
+        if len(alias) > 0:
+            try:
+                runstatement("CALL add_alias_for_criminal(%s, %s, %s);", (a_id, c_id, alias))
+                flash('Successfully added a new criminal!', 'success')
+
+            except Exception as e:
+                flash(str(e), 'error')
+    else:
+        flash('you have no rights','error')
+
+    return redirect("/criminals")
+
 @app.route('/add-crime', methods=['POST'])
 def add_crime():
     if check_privilege():
@@ -520,6 +538,21 @@ def delete_crimes():
     else:
         flash('You have no rights','error')
     return redirect("/crimes")
+
+@app.route('/delete-aliases', methods=['POST'])
+def delete_aliases():
+    if (check_privilege()):
+        for (i,_) in request.form.items():
+            print((int(i.split("check")[1]),))
+            try:
+                runstatement("CALL deleteAlias(%s);", (int(i.split("check")[1]),))
+                flash('Successfully deleted an alias!', 'success')
+            except Exception as e:
+                flash(str(e), 'error')
+            return redirect("/alias")
+    else:
+        flash('You have no rights','error')
+    return redirect("/criminals")
 
 @app.route('/delete-criminals', methods=['POST'])
 def delete_criminal():

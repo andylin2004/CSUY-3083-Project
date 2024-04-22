@@ -95,7 +95,6 @@
                         <th scope="col">C_ID</th>
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
-                        <!-- <th scope="col">Alias</th> -->
                         <th scope="col">Street</th>
                         <th scope="col">City</th>
                         <th scope="col">State</th>
@@ -112,7 +111,6 @@
                         <th scope="row"><a href="" data-bs-toggle="modal" data-bs-target="#editModal" onclick='javascript: showInfo({{ criminal|tojson|safe }});'>{{ criminal['Criminal_ID'] }}</a></th>
                         <td>{{ criminal['First'] }}</td>
                         <td>{{ criminal['Last'] }}</td>
-                        <!-- <td>{{ criminal['alias'] }}</td> -->
                         <td>{{ criminal['Street'] }}</td>
                         <td>{{ criminal['City'] }}</td>
                         <td>{{ criminal['State'] }}</td>
@@ -357,13 +355,15 @@
                                         <table class="table table-striped table-hover">
                                             <thead>
                                                 <tr>
+                                                    <th></th>
                                                     <th>Alias</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="alias_list_body">
-    
+            
                                             </tbody>
                                         </table>
+                                        <input type="submit" class="btn btn-danger" value="Delete Aliases" onclick="javascript: form.action='/delete-aliases'; form.method='post'">
                                     </form>
                                 </div>
                             </div>
@@ -429,6 +429,7 @@
                                 <input type="text" name="alias" id="alias" class="form-control">
                             </div>
                         </div>
+                        <input type="text" name="alias_c_id" id="alias_c_id" class="form-control" style="display: none;">
                         <div class="row mb-3">
                             <div class="col-sm-2 col-form-label">
                                 <label for="a_id">Alias ID</label>
@@ -450,9 +451,11 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script>
             var editForm = document.getElementById("editModal");
+            var aliasForm = document.getElementById("addAliasModal");
 
             function showInfo(criminal) {
                 editForm.querySelector("#c_id").value = criminal['Criminal_ID'];
+                aliasForm.querySelector("#alias_c_id").value = criminal['Criminal_ID'];
                 editForm.querySelector("#l_name").value = criminal['Last'];
                 editForm.querySelector("#f_name").value = criminal['First'];
                 editForm.querySelector("#alias").value = criminal['alias'];
@@ -474,8 +477,16 @@
                 for (const alias of criminal['Aliases']) {
                     var row = document.createElement('tr');
                     var col = document.createElement('td');
+                    var checkbox_ctr = document.createElement('td');
+                    var checkbox = document.createElement('input');
+                    checkbox.type = "checkbox"
+                    checkbox.id = "check"+alias["alias_id"]
+                    checkbox.name = "check"+alias["alias_id"]
+                    checkbox.value = ""
+                    checkbox_ctr.appendChild(checkbox);
+                    row.appendChild(checkbox_ctr);
                     row.appendChild(col);
-                    col.innerText = alias;
+                    col.innerText = alias["alias"];
                     list_body.append(row);
                 }
             }
